@@ -1,7 +1,3 @@
-// folder struckture http://stackoverflow.com/questions/5178334/folder-structure-for-a-nodejs-project
-
-
-
 var http = require('http');
 var db = require('./skatedb');
 var mongoose = require('mongoose');
@@ -9,6 +5,7 @@ var express = require('express');//   , form = require('connect-form');
 var mers = require('mers');
 var User = require('./models/user');
 var Spot = require('./models/spot');
+var clientDir = __dirname + '/../Client';
 
 //db.init();
 
@@ -20,6 +17,7 @@ if (process.env.PORT)
 
 
 var app = express.createServer(
+
   // connect-form (http://github.com/visionmedia/connect-form)
   // middleware uses the formidable middleware to parse urlencoded
   // and multipart form data
@@ -40,6 +38,7 @@ app.configure(function() {
     app.use(allowCrossDomain);
     app.use(express.bodyParser({uploadDir:'./uploads'}));
     app.use('/api', mers({uri:'"mongodb://admin:nimda@staff.mongohq.com:10082/Trigger02"'}).rest());
+    app.use("/client", express.static(clientDir));
 
     //app.use(express.bodyParser());
     //app.use(express.cookieParser());
@@ -61,14 +60,14 @@ app.listen(appPort);
 console.log("running on " + appPort);
 
 
-
+/*
 app.get('/', function(req, res){
   res.send('<form method="post" enctype="multipart/form-data">'
     + '<p>1111: <input type="file" name="image" /></p>'
     + '<p><input type="submit" value="Upload" /></p>'
     + '</form>');
 });
-/*
+
 app.get('/push', function(req, res){
     console.log("pushing");
     count++;

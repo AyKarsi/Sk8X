@@ -2,20 +2,28 @@ var utils = {
 
     // Asynchronously load templates located in separate .html files
     loadTemplate: function(views, callback) {
-
+        try {
         var deferreds = [];
 
         $.each(views, function(index, view) {
+
             if (window[view]) {
                 deferreds.push($.get('tpl/' + view + '.html', function(data) {
                     window[view].prototype.template = _.template(data);
+                    forge.logging.log("loaded view: "+ view);
                 }));
             } else {
                 alert(view + " not found");
             }
         });
+        forge.logging.log("calling applly ");
 
         $.when.apply(null, deferreds).done(callback);
+            forge.logging.log("applly called");
+        }
+        catch (e){
+            forge.logging.log("error creating views: " + e);
+        }
     },
 
     uploadFile: function (file, callbackSuccess) {

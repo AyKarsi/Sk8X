@@ -16,7 +16,11 @@ var AppRouter = Backbone.Router.extend({
     mapView :null,
 
     initialize: function () {
+
+        forge.logging.log("init from router..");
+
         this.headerView = new HeaderView();
+        forge.logging.log("headerView " );
         $('.header').html(this.headerView.el);
 
         var point = new MapMarker({
@@ -30,6 +34,8 @@ var AppRouter = Backbone.Router.extend({
         });
         //debugger;
         this.mapView = new MapView({model: this.mapModel });
+        forge.logging.log("end init from router..");
+        this.navigatePage("#map");
 
     },
     navigatePage: function(id){
@@ -152,8 +158,11 @@ var AppRouter = Backbone.Router.extend({
 });
 var app;
 $(document).ready(function(){
-utils.loadTemplate(['HeaderView','MapView','MapOptionsView','MapOptionItemView','SpotEditView','UserListView','UserListItemView','AboutView'], function() {
-    app = new AppRouter();
-    Backbone.history.start();
-});
+    forge.logging.log("document ready..");
+    utils.loadTemplate(['HeaderView','MapView','MapOptionsView','MapOptionItemView','SpotEditView','UserListView','UserListItemView','AboutView'], function() {
+        forge.logging.log("views loaded starting backbone..");
+        app = new AppRouter();
+        Backbone.history.start();
+        forge.logging.log("backbone started..");
+    });
 });

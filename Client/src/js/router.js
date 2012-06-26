@@ -20,7 +20,6 @@ var AppRouter = Backbone.Router.extend({
         forge.logging.log("init from router..");
 
         this.headerView = new HeaderView();
-        forge.logging.log("headerView " );
         $('.header').html(this.headerView.el);
 
         var point = new MapMarker({
@@ -34,12 +33,10 @@ var AppRouter = Backbone.Router.extend({
         });
         //debugger;
         this.mapView = new MapView({model: this.mapModel });
-        forge.logging.log("end init from router..");
-        this.navigatePage("#map");
-
+        //this.navigatePage("#map");
     },
     navigatePage: function(id){
-        $(".row.page").hide();
+        $(".row-fluid.page").hide();
         if ($("#"+id).length > 0) {
             $("#"+id).show();
             return false;
@@ -68,7 +65,7 @@ var AppRouter = Backbone.Router.extend({
 
         model.set('_id', model.cid);
         $("#spotEditView").remove();
-        $("#content").append(new SpotEditView({model: model}).el);
+        $("#content-fluid").append(new SpotEditView({model: model}).el);
         this.navigatePage('spotEditView');
     },
     editspot :function(_id){
@@ -77,7 +74,7 @@ var AppRouter = Backbone.Router.extend({
         model.fetch({
             success:_.bind(function() {
                 $("#spotEditView").remove();
-                $("#content").append(new SpotEditView({model: model}).el);
+                $("#content-fluid").append(new SpotEditView({model: model}).el);
                 this.navigatePage('spotEditView');
             },this),
             error :function() {
@@ -97,7 +94,7 @@ var AppRouter = Backbone.Router.extend({
         var p = page ? parseInt(page, 10) : 1;
         var userList = new UserCollection();
         userList.fetch({success: function(){
-            $("#content").html(new UserListView({model: userList, page: p}).el);
+            $("#content-fluid").html(new UserListView({model: userList, page: p}).el);
         }},this);
         this.headerView.selectMenuItem('home-menu');
     },
@@ -109,7 +106,7 @@ var AppRouter = Backbone.Router.extend({
             return;
         this.optionsList = new MapOptionCollection();
         this.optionsList.fetch({success:_.bind(function(){
-            $("#content").append(new MapOptionsView({model:this.optionsList}).el);
+            $("#content-fluid").append(new MapOptionsView({model:this.optionsList}).el);
 
         },this)});
 
@@ -121,13 +118,15 @@ var AppRouter = Backbone.Router.extend({
 
         if (!this.navigatePage('mapView')){
             //this.mapView.gmap.checkResize();
+
             google.maps.event.trigger(this.mapView.gmap, "resize");
-            this.mapView.gmap.setZoom(this.mapView.gmap.getZoom());
+            //this.mapView.gmap.setZoom(this.mapView.gmap.getZoom());
+
             return;
         }
 
 
-        $("#content").append(this.mapView.el);
+        $("#content-fluid").append(this.mapView.el);
 
         this.userList = new UserCollection();
         this.userList.fetch({success:_.bind(function(){
@@ -142,6 +141,8 @@ var AppRouter = Backbone.Router.extend({
         },this)});
 
         this.headerView.selectMenuItem('home-menu');
+
+        google.maps.event.trigger(this.mapView.gmap, "resize");
     },
 
 
@@ -151,18 +152,8 @@ var AppRouter = Backbone.Router.extend({
         if (!this.aboutView) {
             this.aboutView = new AboutView();
         }
-        $('#content').html(this.aboutView.el);
+        $('#content-fluid').html(this.aboutView.el);
         this.headerView.selectMenuItem('about-menu');
     }
 
-});
-var app;
-$(document).ready(function(){
-    forge.logging.log("document ready..");
-    utils.loadTemplate(['HeaderView','MapView','MapOptionsView','MapOptionItemView','SpotEditView','UserListView','UserListItemView','AboutView'], function() {
-        forge.logging.log("views loaded starting backbone..");
-        app = new AppRouter();
-        Backbone.history.start();
-        forge.logging.log("backbone started..");
-    });
 });

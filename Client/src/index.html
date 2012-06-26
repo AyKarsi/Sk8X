@@ -15,22 +15,35 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
     <link href="css/docs.css" rel="stylesheet">
+
+    <style>
+        #map_canvas label { width: auto; display:inline; }
+        #map_canvas img { max-width: none; max-height: none; }
+
+        body {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+        }
+
+        .container-fluid,
+        .row-fluid { height: inherit; }
+
+    </style>
 </head>
 
 <body data-spy="scroll" data-target=".subnav" data-offset="50">
 
-<div class="header"></div>
+<div class="header">
 
-<div class="container">
-    <div class="row">
-        <div id="content" class="span12>"></div>
+
+
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12" id="map_canvas" style="height: inherit;" ></div>
     </div>
-
-    <footer class="footer">
-        <p class="pull-right"><a href="#">Back Home</a></p>
-        <p class="pull-right"><a href="#Map">map</a></p>
-        <p class="pull-right"><a href="#somethi">something</a></p>
-    </footer>
 
 </div>
 
@@ -45,10 +58,12 @@ To use the app with a persistent RESTful back-end (provided in the GitHub repo),
 <script src="js/memorystore.js"></script>
 <script src="js/config.js"></script>
 <script src="js/utils.js"></script>
+<script src="js/router.js"></script>
+<script src="js/startup.js"></script>
 
 <script src="https://trigger.io/catalyst/target/target-script-min.js#8B7CD2AD-177A-44B0-9C4C-FD7DB643DA40"></script>
 <script type="text/javascript">
-    forge.enableDebug();
+
 </script>
 <script src="js/models/mapModels.js"></script>
 <script src="js/models/spotModels.js"></script>
@@ -64,20 +79,10 @@ To use the app with a persistent RESTful back-end (provided in the GitHub repo),
 <script src="js/views/mapOptionsView.js"></script>
 <script src="js/views/about.js"></script>
 
+
+
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-<script type="text/javascript" src="lib/jquery.ui.map/jquery.ui.map.full.min.js"></script>
-<script type="text/javascript">
-    var app;
-    $(document).ready(function(){
-        forge.logging.log("document ready..");
-       utils.loadTemplate(['HeaderView','MapView','MapOptionsView','MapOptionItemView','SpotEditView','UserListView','UserListItemView','AboutView'], function() {
-            forge.logging.log("views loaded starting backbone..");
-            app = new AppRouter();
-            Backbone.history.start();
-            forge.logging.log("backbone started..");
-        });
-    });
-</script>
+
 
 </body>
 </html>

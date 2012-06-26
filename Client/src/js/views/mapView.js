@@ -3,9 +3,11 @@ window.MapView = Backbone.View.extend({
     initialize: function(opts) {
 
 
-
-        $(this.el).html(this.template());
-        var mapel = $(this.el).find("#map_canvas")[0];
+        //var html = this.template();
+        //$(this.el).html(html);
+        //$(this.el).css("height", "inherit");
+        //var mapel = //$(this.el).find("#map_canvas")[0];
+        var mapel = $("#map_canvas")[0];
 
         // watch for point changes
         this.mapModel = opts.model;

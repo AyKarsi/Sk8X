@@ -5,7 +5,7 @@ var express = require('express');//   , form = require('connect-form');
 var mers = require('mers');
 var User = require('./models/user');
 var Spot = require('./models/spot');
-var clientDir = __dirname + '/../Client';
+var clientDir = __dirname + '/../Client/src';
 
 //db.init();
 

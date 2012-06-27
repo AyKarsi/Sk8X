@@ -1,13 +1,13 @@
 
 
 window.SpotEditView= Backbone.View.extend({
-
+    el: '.container-fluid',
     initialize: function () {
         this.render();
     },
 
     render: function () {
-        $(this.el).html(this.template(this.model.toJSON()));
+        $(this.el).append(this.template(this.model.toJSON()));
         return this;
     },
 

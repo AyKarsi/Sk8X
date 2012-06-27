@@ -1,10 +1,11 @@
 window.MapView = Backbone.View.extend({
-    //el: $('#mapCanvas'),
+    el: '.container-fluid',
     initialize: function(opts) {
 
 
-        //var html = this.template();
-        //$(this.el).html(html);
+        var html = this.template();
+        $(this.el).append(html);
+
         //$(this.el).css("height", "inherit");
         //var mapel = //$(this.el).find("#map_canvas")[0];
         var mapel = $("#map_canvas")[0];

@@ -32,11 +32,11 @@ var AppRouter = Backbone.Router.extend({
             zoomLevel:17
         });
         //debugger;
-        this.mapView = new MapView({model: this.mapModel });
+        //this.mapView = new MapView({model: this.mapModel });
         //this.navigatePage("#map");
     },
     navigatePage: function(id){
-        $(".row-fluid.page").hide();
+        $(".row-fluid").hide();
         if ($("#"+id).length > 0) {
             $("#"+id).show();
             return false;
@@ -58,14 +58,12 @@ var AppRouter = Backbone.Router.extend({
     },
     addspot: function(lat,lng)
     {
-
         var model = new Spot({
             pos:[lat,lng]
         });
-
         model.set('_id', model.cid);
         $("#spotEditView").remove();
-        $("#content-fluid").append(new SpotEditView({model: model}).el);
+        new SpotEditView({model: model});
         this.navigatePage('spotEditView');
     },
     editspot :function(_id){
@@ -74,7 +72,7 @@ var AppRouter = Backbone.Router.extend({
         model.fetch({
             success:_.bind(function() {
                 $("#spotEditView").remove();
-                $("#content-fluid").append(new SpotEditView({model: model}).el);
+                new SpotEditView({model: model});
                 this.navigatePage('spotEditView');
             },this),
             error :function() {
@@ -94,7 +92,7 @@ var AppRouter = Backbone.Router.extend({
         var p = page ? parseInt(page, 10) : 1;
         var userList = new UserCollection();
         userList.fetch({success: function(){
-            $("#content-fluid").html(new UserListView({model: userList, page: p}).el);
+            new UserListView({model: userList, page: p});
         }},this);
         this.headerView.selectMenuItem('home-menu');
     },
@@ -115,18 +113,13 @@ var AppRouter = Backbone.Router.extend({
     },
 
     map: function() {
-
         if (!this.navigatePage('mapView')){
-            //this.mapView.gmap.checkResize();
-
             google.maps.event.trigger(this.mapView.gmap, "resize");
-            //this.mapView.gmap.setZoom(this.mapView.gmap.getZoom());
-
             return;
         }
 
-
-        $("#content-fluid").append(this.mapView.el);
+        this.mapView = new MapView({model: this.mapModel });
+        //$("#container-fluid").append(this.mapView.el);
 
         this.userList = new UserCollection();
         this.userList.fetch({success:_.bind(function(){

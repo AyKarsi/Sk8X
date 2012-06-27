@@ -1,7 +1,7 @@
 window.UserListView = Backbone.View.extend({
-
+    el:'.container-fluid',
     initialize: function () {
-        $(this.el).html(this.template());
+        $(this.el).append(this.template());
         this.render();
     },
 
@@ -11,7 +11,7 @@ window.UserListView = Backbone.View.extend({
         var startPos = (this.options.page - 1) * 8;
         var endPos = Math.min(startPos + 8, len);
 
-        $(this.el).find(".page").html('<ul class="thumbnails"></ul>');
+        $(this.el).find("#userListView").html('<ul class="thumbnails"></ul>');
 
         for (var i = startPos; i < endPos; i++) {
             $('.thumbnails', this.el).append(new UserListItemView({model: users[i]}).render().el);

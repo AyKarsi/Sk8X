@@ -1,7 +1,7 @@
 var AppRouter = Backbone.Router.extend({
 
     routes: {
-        ""                  : "list",
+        ""                  : "home",
         "map"               : "map",
         "addspot/:lat/:lng"  : "addspot",
         "editspot/:_id"     : "editspot",
@@ -56,6 +56,14 @@ var AppRouter = Backbone.Router.extend({
         return;
 
     },
+    home: function () {
+        if (!this.navigatePage('homeView'))
+            return;
+        if (!this.homeView) {
+            this.homeView= new HomeView();
+        }
+    },
+
     addspot: function(lat,lng)
     {
         var model = new Spot({

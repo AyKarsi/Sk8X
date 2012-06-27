@@ -5,7 +5,6 @@ window.HeaderView = Backbone.View.extend({
     },
 
     render: function () {
-        forge.logging.log("init from header view..");
         $(this.el).html(this.template());
         return this;
     },

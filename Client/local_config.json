@@ -2,9 +2,12 @@
 	"general": {
 	},
 	"ios": {
+		"device":"device",
 		"profiles": {
 			"DEFAULT": {
-				"provisioning_profile": ""
+				"provisioning_profile": "Four.mobileprovision",
+				"developer_certificate_path": "C:\\Dev\\Sk8X\\Client\\trigger.IO.iosCert.pfx",
+				"developer_certificate_password": "nimda"
 			}
 		}
 	},

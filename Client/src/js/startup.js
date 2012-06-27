@@ -16,7 +16,7 @@ else {
 
 $(document).ready(function(){
     forge.logging.log("document ready call from main.. ..");
-    utils.loadTemplate(['HeaderView','MapView','MapOptionsView','MapOptionItemView','SpotEditView','UserListView','UserListItemView','AboutView'], function() {
+    utils.loadTemplate(['HeaderView','HomeView','HomeActionView','MapView','MapOptionsView','MapOptionItemView','SpotEditView','UserListView','UserListItemView','AboutView'], function() {
 
         app = new AppRouter();
         Backbone.history.start();

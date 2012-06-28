@@ -5,7 +5,7 @@ var AppRouter = Backbone.Router.extend({
         "map"               : "map",
         "addspot/:lat/:lng" : "addspot",
         "editspot/:_id"     : "editspot",
-        "mapoptions/:lat/:lng"   : "mapoptions",
+        "mapoptions/:lat/:lng" : "mapoptions",
         //"mapoptions/:action": "action",
         "users/page/:page"	: "list",
         "users/add"         : "addWine",
@@ -31,23 +31,44 @@ var AppRouter = Backbone.Router.extend({
             center: point,
             zoomLevel:17
         });
+
+        this.bind('all', function (trigger, args) {
+            var routeData = trigger.split(":");
+
+            if (routeData[0] === "route") {
+
+                console.log("routing");
+                // do whatever here.
+                // routeData[1] will have the route name
+            }
+        });
+
+
+
         //debugger;
         //this.mapView = new MapView({model: this.mapModel });
         //this.navigatePage("#map");
     },
+    //
+    // retutrns false if the current page can be reused..
     navigatePage: function(opts){
-        var deleteExisting = false;
-        if (opts.deleteExisting != null )
-            deleteExisting = opts.deleteExisting;
-        $(".row-fluid,row").hide();
-        if ($("#"+opts.id).length > 0) {
-            if (deleteExisting)
-                $("#"+opts.id).remove();
-            else
-                $("#"+opts.id).show();
 
-            return false;
-        }
+        $(".row-fluid,row").slideDown('slow',function() {
+            $(this).remove();
+            //if ($(this).hasClass("useOnce"))
+
+            //else
+              //  $(this).hide();
+        });
+
+        $(".row-fluid,row").promise().done(function(){
+            if ($("#"+opts.id).length > 0) {
+                $("#"+opts.id).show();
+                //$("#"+opts.id).slideUp();
+
+                return false;
+            }
+        });
         //$("#content").append(el);
         return true;
 
@@ -66,9 +87,8 @@ var AppRouter = Backbone.Router.extend({
     home: function () {
         if (!this.navigatePage({id:'homeView'}))
             return;
-        if (!this.homeView) {
-            this.homeView= new HomeView();
-        }
+        this.homeView= new HomeView();
+
     },
 
     addspot: function(lat,lng)

@@ -1,6 +1,6 @@
 var config = {
-    //apiUrl : "http://10.237.122.200:99/",
-    apiUrl : "http://localhost:99/",
+    apiUrl : "http://10.237.122.200:99/",
+    //apiUrl : "http://localhost:99/",
     "config_version": "2",
     "platform_version": "v1.3",
     "name": "trigger02",
@@ -23,7 +23,7 @@ var config = {
     "button": {
 
         "default_popup": "index.html",
-            "default_icon": "resources/sun_19.png"
+        "default_icon": "resources/sun_19.png"
     },
     "contact": true,
         "event": true,

@@ -5,7 +5,10 @@ window.HomeView = Backbone.View.extend({
     },
 
     render: function () {
+        //this.el = $(this.el).append("<div class='row-fluid useOnce' id='homeView' ></div>");
         $(this.el).append(this.template());
+
+
 
         var actions = new HomeActionCollection();
         actions.add(new HomeAction({

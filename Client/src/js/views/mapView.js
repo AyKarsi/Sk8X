@@ -1,13 +1,9 @@
 window.MapView = Backbone.View.extend({
     el: '.container-fluid',
     initialize: function(opts) {
-
-
         var html = this.template();
         $(this.el).append(html);
 
-        //$(this.el).css("height", "inherit");
-        //var mapel = //$(this.el).find("#map_canvas")[0];
         var mapel = $("#map_canvas")[0];
 
         // watch for point changes
@@ -32,12 +28,9 @@ window.MapView = Backbone.View.extend({
         this.gmap = new google.maps.Map(mapel , mapOptions);
         google.maps.event.addListener(this.gmap, 'click', function(e)
         {
+            //app.navigate("addspot/"+e.latLng.lat()+"/"+ e.latLng.lng(),{trigger:true});
+            app.navigate("mapoptions/"+e.latLng.lat()+"/"+ e.latLng.lng(),{trigger:true});
 
-
-            //app.addSpot(e.latLng);
-
-            app.navigate("addspot/"+e.latLng.lat()+"/"+ e.latLng.lng(),{trigger:true});
-            //app.navigate("addspot/",true);
         });
 
 

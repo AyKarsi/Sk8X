@@ -6,7 +6,7 @@ var User = Backbone.Model.extend({
     initialize: function (attributes) {
         this.validators = {};
         this.id = attributes['_id'];
-        this.url = config.apiUrl+"api/spots/"+this.id;
+        this.url = config.apiUrl+"api/user/"+this.id;
 
         this.validators.name = function (value) {
             return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter a name"};

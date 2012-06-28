@@ -3,10 +3,10 @@ var AppRouter = Backbone.Router.extend({
     routes: {
         ""                  : "home",
         "map"               : "map",
-        "addspot/:lat/:lng"  : "addspot",
+        "addspot/:lat/:lng" : "addspot",
         "editspot/:_id"     : "editspot",
-        "mapoptions"        : "mapOptions",
-        "mapoptions/:action": "action",
+        "mapoptions/:lat/:lng"   : "mapoptions",
+        //"mapoptions/:action": "action",
         "users/page/:page"	: "list",
         "users/add"         : "addWine",
         "users/:id"         : "wineDetails",
@@ -35,10 +35,17 @@ var AppRouter = Backbone.Router.extend({
         //this.mapView = new MapView({model: this.mapModel });
         //this.navigatePage("#map");
     },
-    navigatePage: function(id){
-        $(".row-fluid").hide();
-        if ($("#"+id).length > 0) {
-            $("#"+id).show();
+    navigatePage: function(opts){
+        var deleteExisting = false;
+        if (opts.deleteExisting != null )
+            deleteExisting = opts.deleteExisting;
+        $(".row-fluid,row").hide();
+        if ($("#"+opts.id).length > 0) {
+            if (deleteExisting)
+                $("#"+opts.id).remove();
+            else
+                $("#"+opts.id).show();
+
             return false;
         }
         //$("#content").append(el);
@@ -57,7 +64,7 @@ var AppRouter = Backbone.Router.extend({
 
     },
     home: function () {
-        if (!this.navigatePage('homeView'))
+        if (!this.navigatePage({id:'homeView'}))
             return;
         if (!this.homeView) {
             this.homeView= new HomeView();
@@ -66,22 +73,21 @@ var AppRouter = Backbone.Router.extend({
 
     addspot: function(lat,lng)
     {
+        if (!this.navigatePage({id:'spotEditView',deleteExisting:true}))
+            return;
         var model = new Spot({
             pos:[lat,lng]
         });
         model.set('_id', model.cid);
-        $("#spotEditView").remove();
         new SpotEditView({model: model});
-        this.navigatePage('spotEditView');
     },
     editspot :function(_id){
-
+        this.navigatePage({id:'spotEditView'});
         var model = new Spot({_id: _id});
         model.fetch({
             success:_.bind(function() {
-                $("#spotEditView").remove();
                 new SpotEditView({model: model});
-                this.navigatePage('spotEditView');
+
             },this),
             error :function() {
                 alert("error");
@@ -93,7 +99,7 @@ var AppRouter = Backbone.Router.extend({
 	list: function(page) {
 
 
-        if (!this.navigatePage('userListView'))
+        if (!this.navigatePage({id:'userListView'}))
             return;
         //var view = new UserListView();
 
@@ -107,21 +113,34 @@ var AppRouter = Backbone.Router.extend({
 
 
 
-    mapOptions: function() {
-        if (!this.navigatePage('mapOptionsView'))
+    mapoptions: function(lat,lng) {
+        if (!this.navigatePage({id:'mapOptionsView'}))
             return;
-        this.optionsList = new MapOptionCollection();
-        this.optionsList.fetch({success:_.bind(function(){
-            $("#content-fluid").append(new MapOptionsView({model:this.optionsList}).el);
+        var optionsList = new OptionCollection();
 
-        },this)});
+        optionsList.add(new Option({
+            href:"#addspot/"+lat+"/"+lng,
+            text:"Add Spot here",
+            icon:'icon-map-marker'
+        }));
+
+        optionsList.add(new Option({
+            href:"#setmypos/"+lat+"/"+lng,
+            text:"Set My Position",
+            icon:'icon-map-marker'
+        }));
+
+
+        new OptionsView({model:optionsList});
+
+
 
 
 
     },
 
     map: function() {
-        if (!this.navigatePage('mapView')){
+        if (!this.navigatePage({id:'mapView',deleteExisting:false})){
             google.maps.event.trigger(this.mapView.gmap, "resize");
             return;
         }

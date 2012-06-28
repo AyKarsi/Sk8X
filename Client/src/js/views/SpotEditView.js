@@ -53,7 +53,7 @@ window.SpotEditView= Backbone.View.extend({
                 }
             );
         } else {
-            this.saveWine();
+            self.saveWine();
         }
         return false;
     },
@@ -70,7 +70,7 @@ window.SpotEditView= Backbone.View.extend({
 
             },
             error: function () {
-                utils.showAlert('Error', 'An error occurred while trying to delete this item', 'alert-error');
+                utils.showAlert('Error', 'An error occurred while trying to save this item', 'alert-error');
             }
         });
     },

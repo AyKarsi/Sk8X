@@ -1,3 +1,9 @@
+define([
+    'jquery',
+    'backbone'
+
+
+], function ($) {
 window.HomeView = Backbone.View.extend({
     el: '.container-fluid',
     initialize: function () {
@@ -68,4 +74,5 @@ window.HomeActionView = Backbone.View.extend({
         $(this.el).html(this.template(this.model.toJSON()));
         return this;
     }
+});
 });

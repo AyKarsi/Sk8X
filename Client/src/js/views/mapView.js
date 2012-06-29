@@ -1,6 +1,14 @@
+define([
+    'jquery',
+    'backbone'/*,
+    "http://maps.google.com/maps/api/js?sensor=true"
+    */
+
+], function ($) {
 window.MapView = Backbone.View.extend({
     el: '.container-fluid',
     initialize: function(opts) {
+        debugger;
         var html = this.template();
         $(this.el).append(html);
 
@@ -84,7 +92,7 @@ window.MapView = Backbone.View.extend({
     render: function() {}
 });
 
-var MarkerView = Backbone.View.extend({
+window.MarkerView = Backbone.View.extend({
 
     el: $('#mapCanvas'),
 
@@ -141,4 +149,5 @@ var MarkerView = Backbone.View.extend({
     }
 
 
+});
 });

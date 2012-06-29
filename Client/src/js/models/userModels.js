@@ -1,4 +1,8 @@
-var User = Backbone.Model.extend({
+define([
+    'backbone'
+], function ($) {
+
+window.User = Backbone.Model.extend({
 
     url: config.apiUrl+"api/user",
 
@@ -39,7 +43,7 @@ var User = Backbone.Model.extend({
     }
 });
 
-var UserCollection = Backbone.Collection.extend({
+window.UserCollection = Backbone.Collection.extend({
 
     model: User,
     url: config.apiUrl+"api/user",
@@ -60,4 +64,5 @@ var UserCollection = Backbone.Collection.extend({
     }
 
 
+});
 });

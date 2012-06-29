@@ -1,3 +1,7 @@
+define([
+    'backbone'
+], function ($) {
+
 window.OptionsView = Backbone.View.extend({
     el: '.container-fluid',
     model: null,
@@ -37,4 +41,5 @@ window.OptionItemView = Backbone.View.extend({
         $(this.el).html(this.template(this.model.toJSON()));
         return this;
     }
+});
 });

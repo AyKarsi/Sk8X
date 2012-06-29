@@ -1,4 +1,8 @@
-var HomeAction = Backbone.Model.extend({
+define([
+    'backbone'
+], function ($) {
+
+window.HomeAction = Backbone.Model.extend({
 
     initialize: function (attributes) {
     },
@@ -10,7 +14,9 @@ var HomeAction = Backbone.Model.extend({
     }
 });
 
-var HomeActionCollection = Backbone.Collection.extend({
+window.HomeActionCollection = Backbone.Collection.extend({
     model: HomeAction
+
+});
 
 });

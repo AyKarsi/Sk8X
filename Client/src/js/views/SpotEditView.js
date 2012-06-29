@@ -1,4 +1,6 @@
-
+define([
+    'backbone'
+], function ($) {
 
 window.SpotEditView= Backbone.View.extend({
     el: '.container-fluid',
@@ -100,4 +102,5 @@ window.SpotEditView= Backbone.View.extend({
         reader.readAsDataURL(this.pictureFile);
     }
 
+});
 });

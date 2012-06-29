@@ -1,4 +1,10 @@
-var AppRouter = Backbone.Router.extend({
+define([
+    'jquery',
+    'backbone'
+
+], function ($) {
+
+window.AppRouter = Backbone.Router.extend({
 
     routes: {
         ""                  : "home",
@@ -196,4 +202,6 @@ var AppRouter = Backbone.Router.extend({
         this.headerView.selectMenuItem('about-menu');
     }
 
+});
+    return AppRouter;
 });

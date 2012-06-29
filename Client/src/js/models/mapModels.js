@@ -1,5 +1,10 @@
+define([
+    'backbone'
+], function ($) {
+
+
 // geo-point data model
-var MapMarker = Backbone.Model.extend({
+window.MapMarker = Backbone.Model.extend({
     // explicitly specifiy the model
     defaults: {
         lat: 0.0,
@@ -16,7 +21,7 @@ var MapMarker = Backbone.Model.extend({
 });
 
 // collection of points
-var MapMarkerCollection = Backbone.Collection.extend({
+window.MapMarkerCollection = Backbone.Collection.extend({
     model: MapMarker
 });
 
@@ -56,3 +61,4 @@ window.MapModel = Backbone.Model.extend({
     }
 });
 
+});

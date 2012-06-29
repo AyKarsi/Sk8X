@@ -1,3 +1,7 @@
+define([
+    'backbone'
+], function ($) {
+
 window.MapOptionsView = Backbone.View.extend({
     //el: $('#mapCanvas'),
 
@@ -35,4 +39,5 @@ window.MapOptionItemView= Backbone.View.extend({
         return this;
     }
 
+});
 });

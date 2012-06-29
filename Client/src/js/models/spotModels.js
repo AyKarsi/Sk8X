@@ -1,3 +1,7 @@
+define([
+    'backbone'
+], function ($) {
+
 window.Spot = Backbone.Model.extend({
 
     url: config.apiUrl+"api/spot",
@@ -86,4 +90,5 @@ window.SpotCollection = Backbone.Collection.extend({
     }
 
 
+});
 });

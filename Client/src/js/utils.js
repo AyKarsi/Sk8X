@@ -1,4 +1,11 @@
-var utils = {
+define([
+    'jquery',
+    'underscore'
+
+], function ($) {
+
+
+    window.utils = {
 
     // Asynchronously load templates located in separate .html files
     loadTemplate: function(views, callback) {
@@ -6,8 +13,13 @@ var utils = {
 
         $.each(views, function(index, view) {
 
+                $.get('tpl/' + view + '.html', function(data) {
+
+                   debugger;
+                });
             if (window[view]) {
                 deferreds.push($.get('tpl/' + view + '.html', function(data) {
+                    debugger;
                     window[view].prototype.template = _.template(data);
                 },'text'));
             } else {
@@ -15,7 +27,13 @@ var utils = {
             }
         });
 
-        $.when.apply(null, deferreds).done(callback);
+        callback();
+
+        $.when.apply(null, deferreds).done(function(){
+            debugger;
+            console.log("all views loaded");
+
+        });
 
     },
 
@@ -119,3 +137,4 @@ var utils = {
     }
 
 };
+});

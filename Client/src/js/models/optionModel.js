@@ -1,4 +1,8 @@
-var Option = Backbone.Model.extend({
+define([
+    'backbone'
+], function ($) {
+
+window.Option = Backbone.Model.extend({
 
     defaults: {
         href:'#',
@@ -10,9 +14,11 @@ var Option = Backbone.Model.extend({
 
 });
 
-var OptionCollection= Backbone.Collection.extend({
+window.OptionCollection= Backbone.Collection.extend({
 
     model: Option
 
+
+});
 
 });

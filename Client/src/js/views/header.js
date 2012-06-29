@@ -1,3 +1,7 @@
+define([
+    'jquery',
+    'backbone'
+], function ($) {
 window.HeaderView = Backbone.View.extend({
 
     initialize: function () {
@@ -5,6 +9,7 @@ window.HeaderView = Backbone.View.extend({
     },
 
     render: function () {
+        debugger;
         $(this.el).html(this.template());
         return this;
     },
@@ -16,4 +21,5 @@ window.HeaderView = Backbone.View.extend({
         }
     }
 
+});
 });

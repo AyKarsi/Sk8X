@@ -1,3 +1,8 @@
+define([
+    'backbone'
+], function ($) {
+
+
 window.AboutView = Backbone.View.extend({
 
     initialize:function () {
@@ -8,5 +13,7 @@ window.AboutView = Backbone.View.extend({
         $(this.el).html(this.template());
         return this;
     }
+
+});
 
 });

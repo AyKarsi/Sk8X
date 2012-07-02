@@ -1,17 +1,18 @@
 require.config({
-    baseUrl:'/client/lib',
+    //baseUrl:'/client/lib',
     paths: {
         // JavaScript folders
         /* . . . */
 
         // Libraries
 
-        jquery: "jquery-1.7.2.min",
-        underscore: "underscore-min",
-        //text: 'lib/text',
-        backbone: "backbone-min",
-        router:   "../js/router",
-        utils:     "../js/utils"
+        jquery: "lib/jquery-1.7.2.min",
+        underscore: "lib/underscore-min",
+        text: 'lib/text',
+        marionette: 'lib/Backbone.Marionette',
+        backbone: "lib/backbone-min",
+        router:   "js/router",
+        utils:     "js/utils"
 
 //        HeaderView :    "js/views/header"
 
@@ -26,6 +27,10 @@ require.config({
         },
         backbone: {
             deps: ["underscore", "jquery"],
+            exports: "Backbone"
+        },
+        marionette:{
+            deps: ["underscore", "jquery", "backbone"],
             exports: "Backbone"
         },
         router:{
@@ -45,24 +50,24 @@ require([
     "underscore",
     "backbone",
     "lib/Backbone.Marionette.js",
-    "router",
+    "js/router",
     "lib/bootstrap.js",
-    "/client/js/memorystore.js",
-    "/client/js/config.js",
-    "/client/js/utils.js",
+    "js/memorystore.js",
+    "js/config.js",
+    "js/utils.js",
 
-    "/client/js/models/spotModels.js",
-    "/client/js/models/userModels.js",
-    "/client/js/models/homeActionModel.js",
-    "/client/js/models/optionModel.js",
-    "/client/js/models/mapModels.js",
-    "/client/js/views/header.js",
-    "/client/js/views/home.js",
-    "/client/js/views/userlist.js",
-    "/client/js/views/mapView.js",
-    "/client/js/views/SpotEditView.js",
-    "/client/js/views/options.js",
-    "/client/js/views/about.js"
+    "js/models/spotModels.js",
+    "js/models/userModels.js",
+    "js/models/homeActionModel.js",
+    "js/models/optionModel.js",
+    "js/models/mapModels.js",
+    "js/views/Navi/header.js",
+    "js/views/Home/home.js",
+    "js/views/userlist.js",
+    "js/views/Map/mapView.js",
+    "js/views/Spot/SpotEditView.js",
+    "js/views/options.js",
+    "js/views/about.js"
     ], function(util) {
     //This function is called when scripts/helper/util.js is loaded.
     //If util.js calls define(), then this function is not fired until

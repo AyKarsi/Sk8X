@@ -24,7 +24,6 @@ window.AppRouter = Backbone.Router.extend({
     initialize: function () {
 
         forge.logging.log("init from router..");
-        debugger;
         this.headerView = new HeaderView();
 
         $('.header').html(this.headerView.el);
@@ -44,7 +43,7 @@ window.AppRouter = Backbone.Router.extend({
 
             if (routeData[0] === "route") {
 
-                console.log("routing");
+                console.log("routing ->" + routeData[1]);
                 // do whatever here.
                 // routeData[1] will have the route name
             }

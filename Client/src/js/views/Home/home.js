@@ -2,15 +2,25 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!/client/tpl/HomeView.html',
-    'text!/client/tpl/HomeActionView.html'
+    'marionette',
+    'text!js/views/Home/HomeView.html',
+    'text!js/views/Home/HomeActionView.html'
 
-], function ($,_,Backbone,htmlBody, htmlAction) {
+], function ($,_,Backbone,Marionette,htmlBody, htmlAction) {
 
-    window.HomeView = Backbone.View.extend({
+
+    window.HomeView = Marionette.View.extend({
     el: '.container-fluid',
     initialize: function () {
+        //Backbone.View.prototype.constructor.apply(this, arguments);
+        this.bindTo(this, "show", this.onShowCalled, this);
         this.render();
+    },
+
+    show : function(p){
+        console.log("show "+p);
+        $(".container-fluid #homeView").animate({width: 'show'});
+
     },
 
     render: function () {
@@ -56,6 +66,7 @@ define([
         actions.each(function(action){
             $('.row', this.el).append(new HomeActionView({model: action}).render().el);
         });
+        this.show(500);
         return this;
     },
 

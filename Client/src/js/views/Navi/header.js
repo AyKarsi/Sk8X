@@ -2,7 +2,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!/client/tpl/HeaderView.html'
+    'text!js/views/Navi/HeaderView.html'
 ], function ($,_,Backbone,html) {
     window.HeaderView = Backbone.View.extend({
 

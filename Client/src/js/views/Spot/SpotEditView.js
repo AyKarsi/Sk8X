@@ -1,15 +1,20 @@
 define([
-    'backbone'
-], function ($) {
+    'jquery',
+    'underscore',
+    'backbone',
+    'text!js/views/Spot/SpotEditView.html'
+], function ($,_,Backbone,htmlBody) {
 
 window.SpotEditView= Backbone.View.extend({
     el: '.container-fluid',
     initialize: function () {
+        this.compiledTemplate = _.template(htmlBody);
         this.render();
     },
 
     render: function () {
-        $(this.el).append(this.template(this.model.toJSON()));
+
+        $(this.el).append(this.compiledTemplate(this.model.toJSON()));
         return this;
     },
 

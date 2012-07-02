@@ -2,13 +2,15 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!/client/tpl/MapView.html'
-], function ($,_,Backbone,htmlBody) {
+    'marionette',
+    'text!js/views/Map/MapView.html'
+], function ($,_,Backbone,Marionette, htmlBody) {
 
-window.MapView = Backbone.View.extend({
+window.MapView = Marionette.View.extend({
     el: '.container-fluid',
     initialize: function(opts) {
-        debugger;
+        this.bindTo(this, "show", this.onShowCalled, this);
+
         var compiledTemplate = _.template(htmlBody);
         $(this.el).append(compiledTemplate);
 
@@ -79,7 +81,6 @@ window.MapView = Backbone.View.extend({
 
             // gmap render all the new points
             newPoints.each(function(newPoint) {
-                debugger;
                 self.pointsToViews[newPoint.cid] = new MarkerView({
                     model: newPoint,
                     gmap: self.gmap,
@@ -87,7 +88,19 @@ window.MapView = Backbone.View.extend({
                 });
             });
         });
+        this.show();
     },
+
+    show : function(p){
+        $(".container-fluid #mapView").hide();
+        console.log("show amp "+p);
+        $(".container-fluid #mapView").animate({width: 'show'}, _.bind(function() {
+            google.maps.event.trigger(this.gmap, "resize");
+        },this));
+
+
+    },
+
 
     render: function() {}
 });

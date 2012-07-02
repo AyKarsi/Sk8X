@@ -61,6 +61,8 @@ require([
     "js/models/homeActionModel.js",
     "js/models/optionModel.js",
     "js/models/mapModels.js",
+    "js/views/Common/NavigationMixin.js",
+    "js/views/Common/MarionettOverrides.js",
     "js/views/Navi/header.js",
     "js/views/Home/home.js",
     "js/views/userlist.js",
@@ -69,10 +71,9 @@ require([
     "js/views/options.js",
     "js/views/about.js"
     ], function(util) {
-    //This function is called when scripts/helper/util.js is loaded.
-    //If util.js calls define(), then this function is not fired until
-    //util's dependencies have loaded, and the util argument will hold
-    //the module value for "helper/util".
+
+
+
 
     forge.logging.log("require.js setup complete");
 

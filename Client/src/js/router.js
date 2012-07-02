@@ -1,8 +1,9 @@
 define([
     'jquery',
-    'backbone'
+    'backbone',
+    'marionette'
 
-], function ($) {
+], function ($,Backbone,Marionette) {
 
 window.AppRouter = Backbone.Router.extend({
 
@@ -22,6 +23,10 @@ window.AppRouter = Backbone.Router.extend({
     mapView :null,
 
     initialize: function () {
+
+        this.mainRegion = new Backbone.Marionette.Region({
+            el: ".container-fluid"
+        });
 
         forge.logging.log("init from router..");
         this.headerView = new HeaderView();
@@ -91,16 +96,15 @@ window.AppRouter = Backbone.Router.extend({
 
     },
     home: function () {
-        if (!this.navigatePage({id:'homeView'}))
-            return;
+        //if (!this.navigatePage({id:'homeView'}))
+        //    return;
         this.homeView= new HomeView();
+        this.mainRegion.show(this.homeView);
 
     },
 
     addspot: function(lat,lng)
     {
-        if (!this.navigatePage({id:'spotEditView',deleteExisting:true}))
-            return;
         var model = new Spot({
             pos:[lat,lng]
         });
@@ -108,7 +112,6 @@ window.AppRouter = Backbone.Router.extend({
         new SpotEditView({model: model});
     },
     editspot :function(_id){
-        this.navigatePage({id:'spotEditView'});
         var model = new Spot({_id: _id});
         model.fetch({
             success:_.bind(function() {
@@ -166,12 +169,25 @@ window.AppRouter = Backbone.Router.extend({
     },
 
     map: function() {
-        if (!this.navigatePage({id:'mapView',deleteExisting:false})){
+
+
+        //this.homeView= new HomeView();
+
+
+        /*if (!this.navigatePage({id:'mapView',deleteExisting:false})){
             google.maps.event.trigger(this.mapView.gmap, "resize");
             return;
+        } */
+        var isNew = false;
+        if(this.mapView == null){
+            this.mapView = new MapView({model: this.mapModel });
+            isNew = true;
         }
 
-        this.mapView = new MapView({model: this.mapModel });
+        this.mainRegion.show(this.mapView);
+
+        if (!isNew)
+            return;
         //$("#container-fluid").append(this.mapView.el);
 
         this.userList = new UserCollection();

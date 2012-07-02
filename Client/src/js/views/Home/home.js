@@ -10,74 +10,58 @@ define([
 
 
     window.HomeView = Marionette.View.extend({
-    el: '.container-fluid',
-    initialize: function () {
-        //Backbone.View.prototype.constructor.apply(this, arguments);
-        this.bindTo(this, "show", this.onShowCalled, this);
-        this.render();
-    },
+        //el: '.container-fluid',
+        initialize: function () {
+            this.elId = "homeView";
+            //var compiledTemplate = _.template(htmlBody);
+            this.el = $(htmlBody);
 
-    show : function(p){
-        console.log("show "+p);
-        $(".container-fluid #homeView").animate({width: 'show'});
+            //Backbone.View.prototype.constructor.apply(this, arguments);
+            this.bindTo(this, "show", this.onShowCalled, this);
+        },
+        render: function () {
 
-    },
+            var actions = new HomeActionCollection();
+            actions.add(new HomeAction({
+                actionHref:"#map",
+                actionText:"Map",
+                icon:"icon-globe"
+            }));
+            actions.add(new HomeAction({
+                actionHref:"#myspots",
+                actionText:"My Spots",
+                icon:"icon-map-marker"
+            }));
+            actions.add(new HomeAction({
+                actionHref:"#settings",
+                actionText:"Settings",
+                icon:"icon-cog"
+            }));
+            actions.add(new HomeAction({
+                actionHref:"#mycrew",
+                actionText:"My Crew",
+                icon:"icon-flag"
+            }));
+            actions.add(new HomeAction({
+                actionHref:"#messages",
+                actionText:"Messages",
+                icon:"icon-envelope"
+            }));
+            actions.add(new HomeAction({
+                actionHref:"#logout",
+                actionText:"Logout",
+                icon:"icon-off"
+            }));
 
-    render: function () {
-
-        var compiledTemplate = _.template(htmlBody);
-        $(this.el).append(compiledTemplate);
-
-
-
-        var actions = new HomeActionCollection();
-        actions.add(new HomeAction({
-            actionHref:"#map",
-            actionText:"Map",
-            icon:"icon-globe"
-        }));
-        actions.add(new HomeAction({
-            actionHref:"#myspots",
-            actionText:"My Spots",
-            icon:"icon-map-marker"
-        }));
-        actions.add(new HomeAction({
-            actionHref:"#settings",
-            actionText:"Settings",
-            icon:"icon-cog"
-        }));
-        actions.add(new HomeAction({
-            actionHref:"#mycrew",
-            actionText:"My Crew",
-            icon:"icon-flag"
-        }));
-        actions.add(new HomeAction({
-            actionHref:"#messages",
-            actionText:"Messages",
-            icon:"icon-envelope"
-        }));
-        actions.add(new HomeAction({
-            actionHref:"#logout",
-            actionText:"Logout",
-            icon:"icon-off"
-        }));
-
-
-        actions.each(function(action){
-            $('.row', this.el).append(new HomeActionView({model: action}).render().el);
-        });
-        this.show(500);
-        return this;
-    },
-
-    selectMenuItem: function (menuItem) {
-        $('.nav li').removeClass('active');
-        if (menuItem) {
-            $('.' + menuItem).addClass('active');
+            actions.each(function(action){
+                var itemHtml = new HomeActionView({model: action}).render().el;
+                $('.row', this.el).append(itemHtml);
+            },this);
+            return this;
         }
-    }
 
-});
+    });
+    _.extend(HomeView.prototype, NavigationMixin);
 
 
     window.HomeActionView = Backbone.View.extend({
@@ -89,8 +73,7 @@ define([
 
         render: function () {
             var compiledTemplate = _.template(htmlAction);
-            $(this.el).append(compiledTemplate(this.model.toJSON()));
-            //$(this.el).html(this.template(this.model.toJSON()));
+            this.el  = compiledTemplate(this.model.toJSON());
             return this;
         }
 });

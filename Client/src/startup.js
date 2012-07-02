@@ -1,19 +1,28 @@
 require.config({
+    baseUrl:'/client/lib',
     paths: {
         // JavaScript folders
         /* . . . */
 
         // Libraries
-        jquery: "lib/jquery-1.7.2.min",
-        underscore: "lib/underscore-min",
-        backbone: "lib/backbone-min",
-        router:   "js/router"
+
+        jquery: "jquery-1.7.2.min",
+        underscore: "underscore-min",
+        //text: 'lib/text',
+        backbone: "backbone-min",
+        router:   "../js/router",
+        utils:     "../js/utils"
+
+//        HeaderView :    "js/views/header"
 
 
     },
     shim: {
         underscore: {
             exports: '_'
+        },
+        jquery: {
+            exports: 'jquery'
         },
         backbone: {
             deps: ["underscore", "jquery"],
@@ -23,6 +32,8 @@ require.config({
             deps: ["underscore", "jquery", "backbone"],
             exports: "Backbone"
         }
+
+
 
     }
 
@@ -36,21 +47,22 @@ require([
     "lib/Backbone.Marionette.js",
     "router",
     "lib/bootstrap.js",
-    "js/memorystore.js",
-    "js/config.js",
-    "js/utils.js",
-    "js/models/spotModels",
-    "js/models/userModels",
-    "js/models/homeActionModel",
-    "js/models/optionModel",
-    "js/models/mapModels",
-    "js/views/header",
-    "js/views/home",
-    "js/views/userlist",
-    "js/views/mapView",
-    "js/views/SpotEditView",
-    "js/views/options",
-    "js/views/about"
+    "/client/js/memorystore.js",
+    "/client/js/config.js",
+    "/client/js/utils.js",
+
+    "/client/js/models/spotModels.js",
+    "/client/js/models/userModels.js",
+    "/client/js/models/homeActionModel.js",
+    "/client/js/models/optionModel.js",
+    "/client/js/models/mapModels.js",
+    "/client/js/views/header.js",
+    "/client/js/views/home.js",
+    "/client/js/views/userlist.js",
+    "/client/js/views/mapView.js",
+    "/client/js/views/SpotEditView.js",
+    "/client/js/views/options.js",
+    "/client/js/views/about.js"
     ], function(util) {
     //This function is called when scripts/helper/util.js is loaded.
     //If util.js calls define(), then this function is not fired until
@@ -58,14 +70,12 @@ require([
     //the module value for "helper/util".
 
     forge.logging.log("require.js setup complete");
-    debugger;
-    utils.loadTemplate(['HeaderView','HomeView','HomeActionView','MapView','OptionsView','OptionItemView','SpotEditView','UserListView','UserListItemView','AboutView'], function() {
-        forge.logging.log("templates loaded. starting router..");
-        debugger;
-        app = new AppRouter();
-        Backbone.history.start();
-        forge.logging.log("backbone started..");
-    });
+
+    app = new AppRouter();
+    Backbone.history.start();
+    forge.logging.log("backbone started..");
+
+
 });
 
 

@@ -1,18 +1,22 @@
 define([
     'jquery',
-    'backbone'
+    'underscore',
+    'backbone',
+    'text!/client/tpl/HomeView.html',
+    'text!/client/tpl/HomeActionView.html'
 
+], function ($,_,Backbone,htmlBody, htmlAction) {
 
-], function ($) {
-window.HomeView = Backbone.View.extend({
+    window.HomeView = Backbone.View.extend({
     el: '.container-fluid',
     initialize: function () {
         this.render();
     },
 
     render: function () {
-        //this.el = $(this.el).append("<div class='row-fluid useOnce' id='homeView' ></div>");
-        $(this.el).append(this.template());
+
+        var compiledTemplate = _.template(htmlBody);
+        $(this.el).append(compiledTemplate);
 
 
 
@@ -61,18 +65,23 @@ window.HomeView = Backbone.View.extend({
             $('.' + menuItem).addClass('active');
         }
     }
+
 });
 
-window.HomeActionView = Backbone.View.extend({
 
-    initialize: function () {
-        this.model.bind("change", this.render, this);
-        this.model.bind("destroy", this.close, this);
-    },
+    window.HomeActionView = Backbone.View.extend({
 
-    render: function () {
-        $(this.el).html(this.template(this.model.toJSON()));
-        return this;
-    }
+        initialize: function () {
+            this.model.bind("change", this.render, this);
+            this.model.bind("destroy", this.close, this);
+        },
+
+        render: function () {
+            var compiledTemplate = _.template(htmlAction);
+            $(this.el).append(compiledTemplate(this.model.toJSON()));
+            //$(this.el).html(this.template(this.model.toJSON()));
+            return this;
+        }
 });
 });
+

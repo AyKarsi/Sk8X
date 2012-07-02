@@ -24,8 +24,9 @@ window.AppRouter = Backbone.Router.extend({
     initialize: function () {
 
         forge.logging.log("init from router..");
-
+        debugger;
         this.headerView = new HeaderView();
+
         $('.header').html(this.headerView.el);
 
         var point = new MapMarker({

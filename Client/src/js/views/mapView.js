@@ -1,16 +1,16 @@
 define([
     'jquery',
-    'backbone'/*,
-    "http://maps.google.com/maps/api/js?sensor=true"
-    */
+    'underscore',
+    'backbone',
+    'text!/client/tpl/MapView.html'
+], function ($,_,Backbone,htmlBody) {
 
-], function ($) {
 window.MapView = Backbone.View.extend({
     el: '.container-fluid',
     initialize: function(opts) {
         debugger;
-        var html = this.template();
-        $(this.el).append(html);
+        var compiledTemplate = _.template(htmlBody);
+        $(this.el).append(compiledTemplate);
 
         var mapel = $("#map_canvas")[0];
 

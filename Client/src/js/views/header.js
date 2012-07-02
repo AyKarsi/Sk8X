@@ -1,25 +1,26 @@
 define([
     'jquery',
-    'backbone'
-], function ($) {
-window.HeaderView = Backbone.View.extend({
+    'underscore',
+    'backbone',
+    'text!/client/tpl/HeaderView.html'
+], function ($,_,Backbone,html) {
+    window.HeaderView = Backbone.View.extend({
 
-    initialize: function () {
-        this.render();
-    },
+        initialize: function () {
+            this.render();
+        },
+        render: function () {
 
-    render: function () {
-        debugger;
-        $(this.el).html(this.template());
-        return this;
-    },
+            var compiledTemplate = _.template(html);
+            $(this.el).html(compiledTemplate);
+            return this;
+        },
 
-    selectMenuItem: function (menuItem) {
-        $('.nav li').removeClass('active');
-        if (menuItem) {
-            $('.' + menuItem).addClass('active');
+        selectMenuItem: function (menuItem) {
+            $('.nav li').removeClass('active');
+            if (menuItem) {
+                $('.' + menuItem).addClass('active');
+            }
         }
-    }
-
-});
+    });
 });

@@ -1,22 +1,20 @@
 define([
     'jquery',
-    'underscore'
+    'underscore',
+    'backbone'
 
 ], function ($) {
 
 
     window.utils = {
 
+    // outdated!!
     // Asynchronously load templates located in separate .html files
     loadTemplate: function(views, callback) {
         var deferreds = [];
 
         $.each(views, function(index, view) {
 
-                $.get('tpl/' + view + '.html', function(data) {
-
-                   debugger;
-                });
             if (window[view]) {
                 deferreds.push($.get('tpl/' + view + '.html', function(data) {
                     debugger;
@@ -27,11 +25,12 @@ define([
             }
         });
 
-        callback();
 
         $.when.apply(null, deferreds).done(function(){
             debugger;
             console.log("all views loaded");
+            callback();
+
 
         });
 

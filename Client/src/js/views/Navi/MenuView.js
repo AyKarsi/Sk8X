@@ -3,11 +3,11 @@ define([
     'underscore',
     'backbone',
     'marionette',
-    'text!js/views/Navi/OptionsView.html',
-    'text!js/views/Navi/OptionItemView.html'
+    'text!js/views/Navi/MenuView.html',
+    'text!js/views/Navi/MenuItemView.html'
 
 ], function ($,_,Backbone,Marionette,htmlBody, htmlAction) {
-    window.OptionsView = Marionette.View.extend({
+    window.MenuView = Marionette.View.extend({
 
         model: null,
         initialize: function () {

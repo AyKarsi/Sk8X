@@ -1,5 +1,8 @@
 var NavigationMixin = {
     elId:null,
+    /*
+
+
     show : function(callback){
         return;
         if (this.elId == null)
@@ -11,5 +14,6 @@ var NavigationMixin = {
                 callback();
         },this));
     }
+     */
 }
 

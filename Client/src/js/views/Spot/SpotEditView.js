@@ -9,18 +9,22 @@ define([
     window.SpotEditView= Marionette.View.extend({
 
         initialize: function () {
-            this.compiledTemplate = _.template(htmlBody);
+
+            //this.el = this.compiledTemplate(this.model.toJSON());
+            $(this.el).html( _.template(htmlBody, this.model.toJSON()));
+
         },
 
         render: function () {
-            this.el = this.compiledTemplate(this.model.toJSON());
+
+
             return this;
         },
 
         events: {
             "change"        : "change",
             "click .save"   : "beforeSave",
-            "click .delete" : "deleteWine",
+            "click .delete" : "delete",
             "drop #picture" : "dropHandler"
         },
 
@@ -44,7 +48,7 @@ define([
         },
 
         beforeSave: function () {
-            debugger;
+
             var self = this;
             var check = this.model.validateAll();
             if (check.isValid === false) {
@@ -56,16 +60,16 @@ define([
                 this.model.set("picture", this.pictureFile.name);
                 utils.uploadFile(this.pictureFile,
                     function () {
-                        self.saveWine();
+                        self.save();
                     }
                 );
             } else {
-                self.saveWine();
+                self.save();
             }
             return false;
         },
 
-        saveWine: function () {
+        save: function () {
             var self = this;
             this.model.save(null, {
                 success: function (model) {
@@ -82,7 +86,8 @@ define([
             });
         },
 
-        deleteWine: function () {
+        delete: function () {
+
             this.model.destroy({
                 success: function () {
                     alert('Wine deleted successfully');

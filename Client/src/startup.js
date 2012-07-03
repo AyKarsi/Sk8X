@@ -68,7 +68,7 @@ require([
     "js/views/userlist.js",
     "js/views/Map/mapView.js",
     "js/views/Spot/SpotEditView.js",
-    "js/views/options.js",
+    "js/views/Navi/mapOptionsView.js",
     "js/views/about.js"
     ], function(util) {
 

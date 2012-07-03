@@ -109,13 +109,16 @@ window.AppRouter = Backbone.Router.extend({
             pos:[lat,lng]
         });
         model.set('_id', model.cid);
-        new SpotEditView({model: model});
+        var spotView = new SpotEditView({model: model});
+        this.mainRegion.show(spotView);
     },
     editspot :function(_id){
         var model = new Spot({_id: _id});
         model.fetch({
             success:_.bind(function() {
-                new SpotEditView({model: model});
+
+                var spotView = new SpotEditView({model: model});
+                this.mainRegion.show(spotView);
 
             },this),
             error :function() {
@@ -143,8 +146,7 @@ window.AppRouter = Backbone.Router.extend({
 
 
     mapoptions: function(lat,lng) {
-        if (!this.navigatePage({id:'mapOptionsView'}))
-            return;
+
         var optionsList = new OptionCollection();
 
         optionsList.add(new Option({
@@ -160,7 +162,8 @@ window.AppRouter = Backbone.Router.extend({
         }));
 
 
-        new OptionsView({model:optionsList});
+        var menuView = new OptionsView({model:optionsList});
+        this.mainRegion.show(menuView);
 
 
 

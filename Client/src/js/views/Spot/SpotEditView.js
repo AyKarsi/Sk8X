@@ -1,21 +1,19 @@
 define([
     'jquery',
     'underscore',
+    'marionette',
     'backbone',
     'text!js/views/Spot/SpotEditView.html'
-], function ($,_,Backbone,htmlBody) {
+], function ($,_,Backbone,Marionette,htmlBody) {
 
-    window.SpotEditView= Backbone.View.extend({
-        el: '.container-fluid',
+    window.SpotEditView= Marionette.View.extend({
+
         initialize: function () {
             this.compiledTemplate = _.template(htmlBody);
-            this.render();
         },
 
         render: function () {
-
-            $(this.el).append(this.compiledTemplate(this.model.toJSON()));
-            this.show();
+            this.el = this.compiledTemplate(this.model.toJSON());
             return this;
         },
 
@@ -46,6 +44,7 @@ define([
         },
 
         beforeSave: function () {
+            debugger;
             var self = this;
             var check = this.model.validateAll();
             if (check.isValid === false) {

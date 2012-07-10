@@ -7,11 +7,12 @@ var User = require('./models/user');
 var Spot = require('./models/spot');
 var clientDir = __dirname + '/../Client/src';
 
+
 //db.init();
 
 
 // cloud 9 settings/workarounds
-var appPort = 99;
+var appPort = 10999;
 if (process.env.PORT)
     appPort =  process.env.PORT;
 
@@ -60,7 +61,7 @@ app.listen(appPort);
 console.log("running on " + appPort);
 
 
-/*
+
 app.get('/', function(req, res){
   res.send('<form method="post" enctype="multipart/form-data">'
     + '<p>1111: <input type="file" name="image" /></p>'
@@ -68,6 +69,9 @@ app.get('/', function(req, res){
     + '</form>');
 });
 
+
+
+/*
 app.get('/push', function(req, res){
     console.log("pushing");
     count++;
@@ -109,3 +113,25 @@ io.sockets.on('connection', function (socket) {
 console.log("express started");
 
 
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://admin:nimda@staff.mongohq.com:10082/Trigger02');
+
+var SpotSchema = new mongoose.Schema({
+    _id: mongoose.Schema.ObjectId,
+    label: String,
+    pos: Array,
+    creator: String,
+    creationDate : Date
+});
+var MyModel = mongoose.model('Spot', SpotSchema);
+
+var instance = new MyModel();
+
+console.log("created instance..");
+
+MyModel.find({}, function (err, docs) {
+    console.log("find...");
+    //console.log("error " +err);
+    //console.log("docs " + docs.length);
+});

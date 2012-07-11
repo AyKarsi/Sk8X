@@ -1,3 +1,4 @@
+
 define([
     'jquery',
     'underscore',
@@ -139,6 +140,7 @@ define([
         },
         render: function() {
 
+
             var options ={
                 position: this.model.toGPoint(),
                 map: this.gmap,
@@ -160,10 +162,22 @@ define([
             this.gMarker = null;
         },
         openInfo : function(){
-            this.mapview.infowindow.content = "<b>"+this.model.get("typeData").get("label")+"</b>";
             var modelType = this.model.get('type');
             if (modelType == 'Spot')
-                this.mapview.infowindow.content += "<a href='#editspot/"+this.model.get("_id")+"'>Edit</b>";
+            {
+                //this.model.href ="#spotoptions/"+this.model.get("_id");
+                var marker = new SpotMarkerView({model:this.model});
+                this.mapview.infowindow.content = marker.render().el;
+
+                //this.mapview.infowindow.content += "<a href='#spotoptions/"+this.model.get("_id")+"'>Edit</b>";
+            }
+            else
+            {
+                this.mapview.infowindow.content = "<b>"+this.model.get("typeData").get("label")+"</b>";
+
+            }
+
+
             this.mapview.infowindow.open(this.gmap,this.gMarker);
         }
 

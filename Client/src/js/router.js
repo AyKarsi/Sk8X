@@ -13,6 +13,7 @@ window.AppRouter = Backbone.Router.extend({
         "addspot/:lat/:lng" : "addspot",
         "editspot/:_id"     : "editspot",
         "mapoptions/:lat/:lng" : "mapoptions",
+        "spotoptions/:id"   : "spotoptions",
         //"mapoptions/:action": "action",
         "users/page/:page"	: "list",
         "users/add"         : "addWine",
@@ -130,10 +131,8 @@ window.AppRouter = Backbone.Router.extend({
     },
 	list: function(page) {
 
-
         if (!this.navigatePage({id:'userListView'}))
             return;
-        //var view = new UserListView();
 
         var p = page ? parseInt(page, 10) : 1;
         var userList = new UserCollection();
@@ -143,7 +142,54 @@ window.AppRouter = Backbone.Router.extend({
         this.headerView.selectMenuItem('home-menu');
     },
 
+    spotoptions: function(id){
+        var optionsList = new OptionCollection();
 
+        optionsList.add(new Option({
+            href:"#checkin/"+id,
+            text:"Checkin",
+            icon:'icon-map-marker'
+        }));
+
+        optionsList.add(new Option({
+            href:"#comment/"+id,
+            text:"Comment & Rate Spot",
+            icon:'icon-map-marker'
+        }));
+
+        optionsList.add(new Option({
+            href:"#editspot/"+id,
+            text:"Edit Spot Details",
+            icon:'icon-map-marker'
+        }));
+
+        optionsList.add(new Option({
+            href:"#viewtricks/"+id,
+            text:"View Tricks",
+            icon:'icon-map-marker'
+        }));
+
+        optionsList.add(new Option({
+            href:"#addtrick/"+id,
+            text:"Add Tricks",
+            icon:'icon-map-marker'
+        }));
+
+        optionsList.add(new Option({
+            href:"#viewskaters/"+id,
+            text:"View Skaters (Current)",
+            icon:'icon-map-marker'
+        }));
+        optionsList.add(new Option({
+            href:"#viewskatersTop/"+id,
+            text:"View Skaters (Top)",
+            icon:'icon-map-marker'
+        }));
+
+
+        var menuView = new MenuView({model:optionsList});
+        this.mainRegion.show(menuView);
+    },
 
     mapoptions: function(lat,lng) {
 
@@ -162,13 +208,8 @@ window.AppRouter = Backbone.Router.extend({
         }));
 
 
-        var menuView = new OptionsView({model:optionsList});
+        var menuView = new MenuView({model:optionsList});
         this.mainRegion.show(menuView);
-
-
-
-
-
     },
 
     map: function() {

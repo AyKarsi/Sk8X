@@ -1,3 +1,4 @@
+
 require.config({
     //baseUrl:'/client/lib',
     paths: {
@@ -67,8 +68,9 @@ require([
     "js/views/Home/home.js",
     "js/views/userlist.js",
     "js/views/Map/mapView.js",
+    "js/views/Map/spotMarkerView.js",
     "js/views/Spot/SpotEditView.js",
-    "js/views/Navi/mapOptionsView.js",
+    "js/views/Navi/menuView.js",
     "js/views/about.js"
     ], function(util) {
 
@@ -99,6 +101,7 @@ if (window.forge == null){
 else {
     forge.enableDebug();
 }
+
 
 
 

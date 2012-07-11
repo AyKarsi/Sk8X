@@ -111,27 +111,3 @@ io.sockets.on('connection', function (socket) {
 });
   */
 console.log("express started");
-
-
-var mongoose = require('mongoose');
-
-mongoose.connect('mongodb://admin:nimda@staff.mongohq.com:10082/Trigger02');
-
-var SpotSchema = new mongoose.Schema({
-    _id: mongoose.Schema.ObjectId,
-    label: String,
-    pos: Array,
-    creator: String,
-    creationDate : Date
-});
-var MyModel = mongoose.model('Spot', SpotSchema);
-
-var instance = new MyModel();
-
-console.log("created instance..");
-
-MyModel.find({}, function (err, docs) {
-    console.log("find...");
-    //console.log("error " +err);
-    //console.log("docs " + docs.length);
-});

@@ -1,11 +1,12 @@
 var http = require('http');
-var db = require('./skatedb');
+//var db = require('./skatedb');
 var mongoose = require('mongoose');
 var express = require('express');//   , form = require('connect-form');
 var mers = require('mers');
 var User = require('./models/user');
 var Spot = require('./models/spot');
-var clientDir = __dirname + '/../Client/src';
+var clientDir = __dirname + '/../Client';
+
 
 
 //db.init();
@@ -38,8 +39,10 @@ var allowCrossDomain = function(req, res, next) {
 app.configure(function() {
     app.use(allowCrossDomain);
     app.use(express.bodyParser({uploadDir:'./uploads'}));
-    app.use('/api', mers({uri:'"mongodb://admin:nimda@staff.mongohq.com:10082/Trigger02"'}).rest());
+    //app.use('/api', mers({uri:'"mongodb://admin:nimda@staff.mongohq.com:10082/Trigger02"'}).rest());
+    app.use('/api', mers({uri:'"mongodb://localhost:27017/Ska8x"'}).rest());
     app.use("/client", express.static(clientDir));
+
 
     //app.use(express.bodyParser());
     //app.use(express.cookieParser());
@@ -94,6 +97,34 @@ app.post('/fileupload', function(req, res, next){
 
 });
 
+
+var testDBConnection = function(){
+
+    console.log("connecting to mongo...");
+
+    var MONGOHQ_URL="mongodb://admin:nimda@staff.mongohq.com:10082/Trigger02";
+    mongoose.connection.on("open", function(){
+        console.log("mongodb is connected!!");
+
+    });
+
+    //mongoose.connect(MONGOHQ_URL);
+
+    /*
+    mongoose.connect("localhost", "sk8x",function(err)
+    {
+        if (err)
+        {
+            throw "Unable to connect to database "+err;
+        }
+    });*/
+
+}
+
+testDBConnection();
+
+
+
 //mongodb://admin:nimda@staff.mongohq.com:10082/Trigger02
 /*
 io.sockets.on('connection', function(socket){
@@ -111,3 +142,27 @@ io.sockets.on('connection', function (socket) {
 });
   */
 console.log("express started");
+
+
+debugger;
+
+/*
+// ensure db fields
+db.Spot.update({'features' : null},
+      {'$set' : {'features' : [] }},
+      { multi: true },
+      function (err, numAffected) {
+          console.log("updated "+ numAffected + " documents");
+      }
+);
+
+// ensure db fields
+db.Spot.update({'description' : null},
+    {'$set' : {'description' : "" }},
+    { multi: true },
+    function (err, numAffected) {
+        console.log("updated "+ numAffected + " documents");
+    }
+);
+
+*/

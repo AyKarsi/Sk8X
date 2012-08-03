@@ -10,8 +10,22 @@ define([
 
         initialize: function () {
 
-            //this.el = this.compiledTemplate(this.model.toJSON());
-            $(this.el).html( _.template(htmlBody, this.model.toJSON()));
+            var viewModel = this.model.toJSON();
+            // build the feature checklist
+            var features = [];
+            _.each(spotController.featureList, _.bind(function(featureDef){
+                var featureViewCheckbox = {name:featureDef,checked:""};
+
+                if (_.any(this.model.get("features"),function(a){
+                    return a==featureDef;
+                })){
+                    featureViewCheckbox.checked = "checked";
+                }
+                features.push(featureViewCheckbox);
+            },this));
+            viewModel.features = features;
+
+            $(this.el).html( _.template(htmlBody, viewModel));
 
         },
 
@@ -49,37 +63,26 @@ define([
 
         beforeSave: function () {
 
-            var self = this;
-            var check = this.model.validateAll();
-            if (check.isValid === false) {
-                utils.displayValidationErrors(check.messages);
-                return false;
-            }
-            // Upload picture file if a new file was dropped in the drop area
-            if (this.pictureFile) {
-                this.model.set("picture", this.pictureFile.name);
-                utils.uploadFile(this.pictureFile,
-                    function () {
-                        self.save();
-                    }
-                );
-            } else {
-                self.save();
-            }
-            return false;
+            var features = $(this.el).find("input.feature");
+            var hasFeatures;
+            var selectedFeatures = [];
+            _.each(features, _.bind(function(item){
+                if ($(item).attr("checked")){
+                    selectedFeatures.push($(item).attr("value"));
+                }
+            },this));
+
+
+            this.model.set("features", selectedFeatures);
+            this.save();
         },
 
         save: function () {
             var self = this;
             this.model.save(null, {
-                success: function (model) {
-                    self.render();
-                    var point = model.toMarker();
-                    app.mapView.model.markers.add(point);
-                    app.navigate('map', true);
-                    app.mapView.openInfo(point);
-
-                },
+                success:_.bind(function (model) {
+                    mapController.addUpdateMarker(model);
+                },this),
                 error: function () {
                     utils.showAlert('Error', 'An error occurred while trying to save this item', 'alert-error');
                 }

@@ -4,20 +4,17 @@ define([
 
 window.Spot = Backbone.Model.extend({
 
-    url: config.apiUrl+"api/spot",
+    urlRoot: config.apiUrl+"api/spot",
+    idAttribute:'_id',
     initialize: function (attributes) {
-        this.id = attributes['_id'];
+
+
         this.validators = {};
+        /*
         if (this.id)
             this.url = config.apiUrl+"api/spot/"+this.id;
-        else
-            this.url = config.apiUrl+"api/spot";
-
-        this.validators._id= function (value) {
-            return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter an id"};
-        };
-
-
+        else if (this._id)
+            this.url = config.apiUrl+"api/spot/"+this._id;*/
     },
     validateItem: function (key) {
         return (this.validators[key]) ? this.validators[key](this.get(key)) : {isValid: true};
@@ -41,7 +38,10 @@ window.Spot = Backbone.Model.extend({
     defaults: {
         _id: null,
         label: 'PleaseSet',
-        pos : []
+        pos : [],
+        spotType:'', // spot or parc
+        description:'',
+        features:[]
     },
     toMarker:function(){
         var pos = this.get("pos");
@@ -49,7 +49,7 @@ window.Spot = Backbone.Model.extend({
             _id: this.get('_id'),
             lat:parseFloat(pos[0]),
             lng:parseFloat(pos[1]),
-            label: "ID"+ this.get('_id'),
+            label: this.get('label'),
             type:'Spot',
             typeData:this
         });
@@ -74,6 +74,7 @@ window.Spot = Backbone.Model.extend({
 window.SpotCollection = Backbone.Collection.extend({
 
     model: Spot,
+    //url: config.apiUrl+"api/spot",
     url: config.apiUrl+"api/spot",
 
     getPoints:function() {

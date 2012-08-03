@@ -6,10 +6,10 @@ window.User = Backbone.Model.extend({
 
     url: config.apiUrl+"api/user",
 
-
+    idAttribute:'username',
     initialize: function (attributes) {
         this.validators = {};
-        this.id = attributes['_id'];
+        //this.id = attributes['_id'];
         this.url = config.apiUrl+"api/user/"+this.id;
 
         this.validators.name = function (value) {
@@ -31,6 +31,8 @@ window.User = Backbone.Model.extend({
         });
         return point;
     },
+
+
 
     getGoogleLatLng:function() {
         var pos = this.get('pos');
@@ -56,6 +58,20 @@ window.UserCollection = Backbone.Collection.extend({
         });
         return points;
 
+    },
+    // override default get, so that username can be passed in any case.
+    get: function(id) {
+        if (id == null) return void 0;
+        var result = this._byId[id.id != null ? id.id : id];
+        if (result != null)
+            return result;
+        var lowId = id.toLowerCase();
+        // try to find it ignoring the case
+        result = _.find(this.models, _.bind(function(item){
+            return item.id.toLowerCase() == lowId;
+        },this));
+
+        return result;
     },
     // override for merse rest api
     parse: function(models) {

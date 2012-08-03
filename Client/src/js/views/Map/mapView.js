@@ -140,7 +140,6 @@ define([
         },
         render: function() {
 
-
             var options ={
                 position: this.model.toGPoint(),
                 map: this.gmap,

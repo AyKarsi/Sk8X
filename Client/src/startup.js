@@ -1,6 +1,6 @@
 
 require.config({
-    //baseUrl:'/client/lib',
+    baseUrl:'/client/src',
     paths: {
         // JavaScript folders
         /* . . . */
@@ -10,7 +10,7 @@ require.config({
         jquery: "lib/jquery-1.7.2.min",
         underscore: "lib/underscore-min",
         text: 'lib/text',
-        marionette: 'lib/Backbone.Marionette',
+        marionette: 'lib/Backbone-Marionette',
         backbone: "lib/backbone-min",
         router:   "js/router",
         utils:     "js/utils"
@@ -32,11 +32,11 @@ require.config({
         },
         marionette:{
             deps: ["underscore", "jquery", "backbone"],
-            exports: "Backbone"
+            exports: "marionette"
         },
         router:{
             deps: ["underscore", "jquery", "backbone"],
-            exports: "Backbone"
+            exports: "router"
         }
 
 
@@ -50,35 +50,39 @@ require([
     "jquery",
     "underscore",
     "backbone",
-    "lib/Backbone.Marionette.js",
+    "marionette",
     "js/router",
-    "lib/bootstrap.js",
-    "js/memorystore.js",
-    "js/config.js",
-    "js/utils.js",
+    "lib/bootstrap",
+    "js/memorystore",
+    "js/config",
+    "js/utils",
 
-    "js/models/spotModels.js",
-    "js/models/userModels.js",
-    "js/models/homeActionModel.js",
-    "js/models/optionModel.js",
-    "js/models/mapModels.js",
-    "js/views/Common/NavigationMixin.js",
-    "js/views/Common/MarionettOverrides.js",
-    "js/views/Navi/header.js",
-    "js/views/Home/home.js",
-    "js/views/userlist.js",
-    "js/views/Map/mapView.js",
-    "js/views/Map/spotMarkerView.js",
-    "js/views/Spot/SpotEditView.js",
-    "js/views/Navi/menuView.js",
-    "js/views/about.js"
+    "js/models/spotModels",
+    "js/models/userModels",
+    "js/models/homeActionModel",
+    "js/models/optionModel",
+    "js/models/mapModels",
+    "js/views/Common/NavigationMixin",
+    "js/views/Common/MarionettOverrides",
+    "js/views/Navi/header",
+    "js/views/Home/home",
+    "js/views/userlist",
+    "js/views/Map/mapView",
+    "js/views/Map/spotMarkerView",
+    "js/views/Spot/SpotEditView",
+    "js/views/Navi/menuView",
+    "js/views/about",
+    "js/controllers/spotController",
+    "js/controllers/mapController",
+    "js/config",
     ], function(util) {
 
 
 
 
     forge.logging.log("require.js setup complete");
-
+    window.spotController = new SpotController();
+    window.mapController = new MapController();
     app = new AppRouter();
     Backbone.history.start();
     forge.logging.log("backbone started..");

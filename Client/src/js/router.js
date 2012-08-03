@@ -14,7 +14,6 @@ window.AppRouter = Backbone.Router.extend({
         "editspot/:_id"     : "editspot",
         "mapoptions/:lat/:lng" : "mapoptions",
         "spotoptions/:id"   : "spotoptions",
-        //"mapoptions/:action": "action",
         "users/page/:page"	: "list",
         "users/add"         : "addWine",
         "users/:id"         : "wineDetails",
@@ -34,15 +33,6 @@ window.AppRouter = Backbone.Router.extend({
 
         $('.header').html(this.headerView.el);
 
-        var point = new MapMarker({
-            lat: 48.123447013691425,
-            lng: 11.572508388082952
-        });
-
-        this.mapModel = new MapModel({
-            center: point,
-            zoomLevel:17
-        });
 
         this.bind('all', function (trigger, args) {
             var routeData = trigger.split(":");
@@ -55,16 +45,12 @@ window.AppRouter = Backbone.Router.extend({
             }
         });
 
-
-
-        //debugger;
-        //this.mapView = new MapView({model: this.mapModel });
-        //this.navigatePage("#map");
     },
     //
     // retutrns false if the current page can be reused..
-    navigatePage: function(opts){
+  /*  navigatePage: function(opts){
 
+        console.log("navigatePage");
         $(".row-fluid,row").slideDown('slow',function() {
             $(this).remove();
             //if ($(this).hasClass("useOnce"))
@@ -84,18 +70,8 @@ window.AppRouter = Backbone.Router.extend({
         //$("#content").append(el);
         return true;
 
-    },
-    action:function(action){
-        switch(action){
-            case "addspot":
-                this.addSpot();
-                break;
-            default:
-                alert("action not implemented :" + action);
-        }
-        return;
+    },*/
 
-    },
     home: function () {
         //if (!this.navigatePage({id:'homeView'}))
         //    return;
@@ -104,30 +80,24 @@ window.AppRouter = Backbone.Router.extend({
 
     },
 
+
     addspot: function(lat,lng)
     {
-        var model = new Spot({
-            pos:[lat,lng]
-        });
-        model.set('_id', model.cid);
-        var spotView = new SpotEditView({model: model});
-        this.mainRegion.show(spotView);
+        spotController.addSpot(lat,lng, _.bind(function(view) {
+            this.mainRegion.show(view);
+        },this));
     },
     editspot :function(_id){
-        var model = new Spot({_id: _id});
-        model.fetch({
-            success:_.bind(function() {
+        spotController.editSpot(_id, _.bind(function(view) {
+            this.mainRegion.show(view);
+        },this));
+    },
 
-                var spotView = new SpotEditView({model: model});
-                this.mainRegion.show(spotView);
+    spotoptions: function(id){
 
-            },this),
-            error :function() {
-                alert("error");
-            }
-        });
-
-
+        spotController.spotOptions(id, _.bind(function(view) {
+            this.mainRegion.show(view);
+        },this));
     },
 	list: function(page) {
 
@@ -141,118 +111,18 @@ window.AppRouter = Backbone.Router.extend({
         }},this);
         this.headerView.selectMenuItem('home-menu');
     },
-
-    spotoptions: function(id){
-        var optionsList = new OptionCollection();
-
-        optionsList.add(new Option({
-            href:"#checkin/"+id,
-            text:"Checkin",
-            icon:'icon-map-marker'
-        }));
-
-        optionsList.add(new Option({
-            href:"#comment/"+id,
-            text:"Comment & Rate Spot",
-            icon:'icon-map-marker'
-        }));
-
-        optionsList.add(new Option({
-            href:"#editspot/"+id,
-            text:"Edit Spot Details",
-            icon:'icon-map-marker'
-        }));
-
-        optionsList.add(new Option({
-            href:"#viewtricks/"+id,
-            text:"View Tricks",
-            icon:'icon-map-marker'
-        }));
-
-        optionsList.add(new Option({
-            href:"#addtrick/"+id,
-            text:"Add Tricks",
-            icon:'icon-map-marker'
-        }));
-
-        optionsList.add(new Option({
-            href:"#viewskaters/"+id,
-            text:"View Skaters (Current)",
-            icon:'icon-map-marker'
-        }));
-        optionsList.add(new Option({
-            href:"#viewskatersTop/"+id,
-            text:"View Skaters (Top)",
-            icon:'icon-map-marker'
-        }));
-
-
-        var menuView = new MenuView({model:optionsList});
-        this.mainRegion.show(menuView);
-    },
-
     mapoptions: function(lat,lng) {
-
-        var optionsList = new OptionCollection();
-
-        optionsList.add(new Option({
-            href:"#addspot/"+lat+"/"+lng,
-            text:"Add Spot here",
-            icon:'icon-map-marker'
-        }));
-
-        optionsList.add(new Option({
-            href:"#setmypos/"+lat+"/"+lng,
-            text:"Set My Position",
-            icon:'icon-map-marker'
-        }));
-
-
-        var menuView = new MenuView({model:optionsList});
-        this.mainRegion.show(menuView);
+        mapController.mapOptions(lat,lng,_.bind(function(view) {
+            this.mainRegion.show(view);
+        },this));
     },
 
     map: function() {
-
-
-        //this.homeView= new HomeView();
-
-
-        /*if (!this.navigatePage({id:'mapView',deleteExisting:false})){
-            google.maps.event.trigger(this.mapView.gmap, "resize");
-            return;
-        } */
-        var isNew = false;
-        if(this.mapView == null){
-            this.mapView = new MapView({model: this.mapModel });
-            isNew = true;
-        }
-
-        this.mainRegion.show(this.mapView);
-
-        if (!isNew)
-            return;
-        //$("#container-fluid").append(this.mapView.el);
-
-        this.userList = new UserCollection();
-        this.userList.fetch({success:_.bind(function(){
-            var userPoints = this.userList.getPoints();
-            this.mapModel.markers.add(userPoints);
-        },this)});
-
-        this.spotList = new SpotCollection();
-        this.spotList.fetch({success:_.bind(function(){
-            var spotPoints = this.spotList.getPoints();
-            this.mapModel.markers.add(spotPoints);
-        },this)});
-
-        this.headerView.selectMenuItem('home-menu');
-
-        google.maps.event.trigger(this.mapView.gmap, "resize");
+        mapController.showMap(_.bind(function(view) {
+            this.mainRegion.show(view);
+            this.headerView.selectMenuItem('home-menu');
+        },this));
     },
-
-
-
 
     about: function () {
         if (!this.aboutView) {

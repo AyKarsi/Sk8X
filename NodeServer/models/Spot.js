@@ -5,7 +5,9 @@ var SpotSchema = new Schema({
     label: String,
     pos: Array,
     creator: String,
-    creationDate : Date
+    creationDate : Date,
+    features:[String],
+    description:String
 });
 
 

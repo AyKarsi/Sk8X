@@ -2,8 +2,6 @@
 window.userStore = {
 
     users: {},
-
-
     populate: function () {
 
         this.users[1]= {

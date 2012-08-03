@@ -42,7 +42,7 @@ define([
                 this.mapModel.markers.add(spotPoints);
             },this)});
 
-            google.maps.event.trigger(this.mapView.gmap, "resize");
+            //google.maps.event.trigger(this.mapView.gmap, "resize");
 
             if (callback != null)
                 callback(this.mapView);

@@ -26,8 +26,8 @@ define([
 
             if (!isNew)
             {
-                callback(this.mapView);
-                return;
+                if (callback )
+                    callback(this.mapView);
             }
 
             this.userList = new UserCollection();
@@ -44,7 +44,9 @@ define([
 
             google.maps.event.trigger(this.mapView.gmap, "resize");
 
-            callback(this.mapView);
+            if (callback != null)
+                callback(this.mapView);
+
 
 
         }

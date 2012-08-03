@@ -38,12 +38,13 @@ define([
         events: {
             "change"        : "change",
             "click .save"   : "beforeSave",
-            "click .delete" : "delete",
-            "drop #picture" : "dropHandler"
+            "click .cancel"   : "cancel",
+            "click .delete" : "delete"
         },
 
         change: function (event) {
             // Remove any existing alert message
+            console.log("changing " + event.target);
             utils.hideAlert();
 
             // Apply the change to the model
@@ -61,8 +62,12 @@ define([
             }
         },
 
-        beforeSave: function () {
+        cancel : function() {
+            //mapController.showMap();
+            //app.navigate('/map');
+        },
 
+        beforeSave: function () {
             var features = $(this.el).find("input.feature");
             var hasFeatures;
             var selectedFeatures = [];
@@ -76,7 +81,6 @@ define([
             this.model.set("features", selectedFeatures);
             this.save();
         },
-
         save: function () {
             var self = this;
             this.model.save(null, {
@@ -88,33 +92,15 @@ define([
                 }
             });
         },
-
         delete: function () {
-
+            alert("todo");
             this.model.destroy({
                 success: function () {
-                    alert('Wine deleted successfully');
                     window.history.back();
                 }
             });
             return false;
-        },
-
-        dropHandler: function (event) {
-            event.stopPropagation();
-            event.preventDefault();
-            var e = event.originalEvent;
-            e.dataTransfer.dropEffect = 'copy';
-            this.pictureFile = e.dataTransfer.files[0];
-
-            // Read the image file from the local file system and display it in the img tag
-            var reader = new FileReader();
-            reader.onloadend = function () {
-                $('#picture').attr('src', reader.result);
-            };
-            reader.readAsDataURL(this.pictureFile);
         }
-
     });
     _.extend(SpotEditView.prototype, NavigationMixin);
 });

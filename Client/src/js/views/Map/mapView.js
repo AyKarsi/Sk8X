@@ -59,7 +59,6 @@ define([
                 app.navigate("mapoptions/"+e.latlng.lat+"/"+ e.latlng.lng,{trigger:true});
             });
 
-
             this.addSpot = function(spot){
                 var pos = spot.get("pos");
                 var lat = pos[0];

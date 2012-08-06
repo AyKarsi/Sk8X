@@ -276,7 +276,6 @@ describe("SpotModel loading data", function() {
 
 
         runs(function(){
-            debugger;
             expect(errorCallBack.callCount).toEqual(0);
             expect(successCallBack.callCount > 0).toEqual(true);
 

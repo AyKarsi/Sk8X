@@ -1,7 +1,8 @@
 var crypto = require('crypto'), mongoose = require('mongoose'), Schema = mongoose.Schema, ImageInfo = require('../plugins/ImageInfo');
 
 var SpotSchema = new Schema({
-    _id: mongoose.Schema.ObjectId,
+    //_id: mongoose.Schema.ObjectId,
+
     label: String,
     pos: Array,
     creator: String,
@@ -22,11 +23,18 @@ SpotSchema.pre('save', function (next) {
 
     var _this = this;
     console.log("pre_spot save "+_this._id + " " +_this.label);
-    if (this.isNew)
+    if (this.isNew){
         this.created_at = Date.now();
+
+        var tmpSpot = new Spot();
+        this._id = tmpSpot.id;
+        console.log("created new id " + this._id);
+    }
     else
         this.modfied_at = Date.now();
     next();
+
+
 });
 
 

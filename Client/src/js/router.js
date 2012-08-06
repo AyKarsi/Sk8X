@@ -73,9 +73,6 @@ window.AppRouter = Backbone.Router.extend({
     },*/
 
     home: function () {
-        debugger;
-        //if (!this.navigatePage({id:'homeView'}))
-        //    return;
         this.homeView= new HomeView();
         this.mainRegion.show(this.homeView);
 

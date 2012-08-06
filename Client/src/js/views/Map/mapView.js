@@ -47,10 +47,8 @@ define([
             });
 
             this.lmap.on("click",function(e){
-                debugger;
                 app.navigate("mapoptions/"+e.latLng+"/"+ e.latLng,{trigger:true});
             });
-
 
             var self = this;
             this.mapModel.on('markers:add', function(newpoint) {

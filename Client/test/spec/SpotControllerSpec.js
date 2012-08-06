@@ -4,13 +4,11 @@ describe("SpotController: loading views", function() {
 
     beforeEach(function() {
         this.resultView = null;
-        spotCollection = new SpotCollection();
-        spotCollection.fetch({success: function(){
-            console.log("spot collection loaded data");
-        }},this);
+
+        spotController.init();
 
         waitsFor(function(){
-            return spotCollection.models.length > 0;
+            return spotController.loading == false;
         },  "Could not load spot data",1500)
 
     });
@@ -39,7 +37,7 @@ describe("SpotController: loading views", function() {
     });
     it("a spot edit view can be loaded and has a model", function() {
 
-        var spot = spotCollection.models[0];
+        var spot = spotController.spotCollection.models[0];
         var callback = jasmine.createSpy();
         spotController.editSpot(spot.id, callback);
 
@@ -59,7 +57,7 @@ describe("SpotController: loading views", function() {
     });
     it("spot options can be loaded", function() {
 
-        var spot = spotCollection.models[0];
+        var spot = spotController.spotCollection.models[0];
         var callback = jasmine.createSpy();
         spotController.spotOptions(spot.id, callback);
 
@@ -81,7 +79,7 @@ describe("SpotController: loading views", function() {
 
     it("a spot can be edited", function() {
 
-        var spot = spotCollection.models[0];
+        var spot = spotController.spotCollection.models[spotController.spotCollection.length-1];
         var callback = jasmine.createSpy();
         spotController.editSpot(spot.id, callback);
 
@@ -96,7 +94,35 @@ describe("SpotController: loading views", function() {
             expect(view.el).toNotEqual(null);
             expect(view.model).toNotEqual(null);
             expect(view.model.id).toEqual(spot.id);
-            view.save()
+
+            var testLabel = "testlabel" + new Date().getTime();
+            $(view.el).find("input[name='label']").val(testLabel);
+            debugger;
+            expect($(view.el).find("input[name='label']").val()).toEqual(testLabel);
+            var spotCountPre = spotController.spotCollection.length;
+            view.saveCallback = jasmine.createSpy();
+
+            // manaullay set the model (click event does not cause the model to be updated
+            view.model.set("label",testLabel);
+
+            $(view.el).find(".save").trigger('click');
+            //view.beforeSave(saveCallback);
+            waitsFor(function(){
+                return view.saveCallback.callCount > 0;
+            });
+            runs(function(){
+                expect(view.model.get("label")).toEqual(testLabel);
+
+                expect(spotController.spotCollection.length).toEqual(spotCountPre);
+
+                var updatedSpotModel = spotController.spotCollection.get(spot.id);
+                debugger;
+                expect(updatedSpotModel).toNotEqual(null);
+                expect(updatedSpotModel.get("label")).toEqual(testLabel);
+
+            });
+
+
         });
 
     });

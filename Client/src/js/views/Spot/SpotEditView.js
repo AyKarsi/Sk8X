@@ -27,6 +27,8 @@ define([
 
             $(this.el).html( _.template(htmlBody, viewModel));
 
+            this.render();
+
         },
 
         render: function () {
@@ -67,9 +69,14 @@ define([
             //app.navigate('/map');
         },
 
-        beforeSave: function () {
+        // used mainly for testing
+        saveCallback : null,
+        beforeSave: function (callback) {
+            debugger;
             var features = $(this.el).find("input.feature");
             var hasFeatures;
+
+
             var selectedFeatures = [];
             _.each(features, _.bind(function(item){
                 if ($(item).attr("checked")){
@@ -79,13 +86,22 @@ define([
 
 
             this.model.set("features", selectedFeatures);
-            this.save();
+            this.save(callback);
         },
-        save: function () {
+        save: function (callback) {
             var self = this;
+
+
+            if (this.model.isNew())
+                spotController.spotCollection.add(this.model);
+
             this.model.save(null, {
-                success:_.bind(function (model) {
-                    mapController.addUpdateMarker(model);
+                success:_.bind(function (model, b,c) {
+                    debugger;
+                    app.navigate("map/"+model.get("_id"),true);
+                    if (this.saveCallback)
+                        this.saveCallback();
+                    //mapController.openMarkerPopup(model.get("_id"));
                 },this),
                 error: function () {
                     utils.showAlert('Error', 'An error occurred while trying to save this item', 'alert-error');

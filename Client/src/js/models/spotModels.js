@@ -79,8 +79,16 @@ window.SpotCollection = Backbone.Collection.extend({
 
     getPoints:function() {
         var points = [];
-        this.each(function(user){
-            points.push(user.toMarker());
+        this.each(function(spot){
+
+            var lat = spot.get("pos")[0];
+            var lng = spot.get("pos")[1];
+
+            if (!lat || !lng){
+                console.log("unknown coordinates for point"+spot.attributes.type + " "+ spot.attributes._id);
+            }
+            else
+                points.push(spot.toMarker());
         });
         return points;
 

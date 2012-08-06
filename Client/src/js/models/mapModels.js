@@ -50,7 +50,13 @@ window.MapModel = Backbone.Model.extend({
             self.trigger('markers:reset', newPoints);
         })
 
+        this.markers.on('change', function(newPoints) {
+            console.log("map marker change from from MapModel");
+            self.trigger('markers:change', newPoints);
+        })
+
         this.center.on('change', function(newCenter) {
+
             self.trigger('center:change', newCenter);
         });
 

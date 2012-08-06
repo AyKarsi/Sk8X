@@ -5,10 +5,16 @@ define([
 ], function ($,_,Backbone) {
 
     window.SpotController = function(){
-        this.spotCollection = new SpotCollection ();
-        this.spotCollection.fetch({success: function(){
-            console.log("spots loaded");
-        }},this);
+
+        this.init = function () {
+            this.loading = true;
+            this.spotCollection = new SpotCollection ();
+            this.spotCollection.fetch({success:_.bind(function(){
+                console.log("spots loaded");
+                this.loading = false;
+            },this)},this);
+        };
+        this.init();
 
 
         this.featureList = ['Rail', 'Curb','Pipe'];
@@ -22,6 +28,21 @@ define([
             callback(spotView);
         };
         this.editSpot = function(id,callback){
+
+
+            var model = this.spotCollection.get(id);
+            if (model == null){
+                alert("spot not found");
+                return;
+            }
+
+
+            var view = new SpotEditView({model:model});
+            if (callback != null)
+                callback(view);
+            return;
+/*
+
             var model = new Spot({_id: id});
 
             model.fetch({
@@ -36,6 +57,7 @@ define([
                     alert("error");
                 }
             });
+*/
         };
 
         this.spotOptions = function(id, callback){

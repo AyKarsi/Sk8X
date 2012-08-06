@@ -31,37 +31,92 @@ define([
             this.lmap.setView( [this.mapModel.get("center").get("lat"),  this.mapModel.get("center").get("lng")], 19);
 
 
-            this.lmap.on("popupopen",function(e){
-                var model = e.popup._source.options.model;
+            this.lmap.on("popupopen", _.bind(function(e){
+
+                var popup = e.popup != null ? e.popup : e._popup;
+                if(popup == null)
+                {
+                    console.log("recieved invalid popupopen event " +e);
+                    return;
+                }
+
+                var model = popup._source.options.model;
+                var id = model.get("_id");
+                // make sure we have the latest (possibly update markermode)
+                model = spotController.spotCollection.get(id);//this.mapModel.markers.models,function(m){
+
+                // todo modelType
                 var modelType = model.get('type');
-                if (modelType == 'Spot'){
 
-                    var markerView = new SpotMarkerView({model:model});
-                    markerView.render();
-                    e.popup.setContent(markerView.el);
-                }
-                else {
-                    e.popup.setContent(model.get("typeData").get("label"));
-                }
+                var markerView = new SpotMarkerView({model:model});
+                markerView.render();
+                popup.setContent(markerView.el);
 
-            });
+
+            },this));
 
             this.lmap.on("click",function(e){
-                debugger;
-                app.navigate("mapoptions/"+e.latLng+"/"+ e.latLng,{trigger:true});
+                app.navigate("mapoptions/"+e.latlng.lat+"/"+ e.latlng.lng,{trigger:true});
             });
 
 
-            var self = this;
-            this.mapModel.on('markers:add', function(newpoint) {
-                var marker = L.marker([newpoint.get("lat"),  newpoint.get("lng")],{
-                    model:newpoint
-                });
+            this.addSpot = function(spot){
+                var pos = spot.get("pos");
+                var lat = pos[0];
+                var lng = pos[1];
 
+                if (!lat || !lng  || lat == "undefined" || lng =="undefined" ){
+                    console.log("unkonw coordinats for point"+spot.attributes.type + " "+ spot.attributes._id);
+                    return;
+                }
+
+                var marker = L.marker([lat,lng],{
+                    model:spot
+                });
                 // empty bind need so that event listeners is tuned in
                 marker.bindPopup("");
-                marker.addTo(self.lmap);
-            });
+                marker.addTo(this.lmap);
+                console.log("added marker "+ spot.get("_id") + " " + spot.get("label"));
+            };
+
+            spotController.spotCollection.on('reset', _.bind(function(){
+                console.log("got reset event (called on fetch?)");
+
+                _.each(spotController.spotCollection.models, _.bind(function(spot){
+                    this.addSpot(spot);
+                },this));
+            },this));
+
+
+            spotController.spotCollection.on('add', _.bind(function(newSpot){
+                console.log("got add event");
+                this.addSpot(newSpot);
+            },this));
+
+
+
+/*            this.markerViews = [];
+            this.mapModel.on('markers:add', _.bind(function(newpoint) {
+
+                var lat = newpoint.get("lat");
+                var lng = newpoint.get("lng");
+
+                if (!lat || !lng){
+                    console.log("unkonw coordinats for point"+newpoint.attributes.type + " "+ newpoint.attributes._id);
+                    return;
+                }
+
+                var marker = L.marker([lat,lng],{
+                    model:newpoint
+                });
+                // empty bind need so that event listeners is tuned in
+                marker.bindPopup("");
+                marker.addTo(this.lmap);
+                console.log("added marker "+ newpoint.get("_id") + " " + newpoint.get("label"));
+                this.markerViews.push(marker);
+
+
+            },this));
 
             this.mapModel.on('markers:remove', function(removedPoint) {
 
@@ -78,7 +133,7 @@ define([
 
                 alert("reset todo")
 
-            });
+            });*/
 
         },
         close: function(){

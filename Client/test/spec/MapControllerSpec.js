@@ -3,17 +3,20 @@ describe("MapController: loading views", function() {
     var spotCollection;
 
     beforeEach(function() {
-        /*
-        spotCollection = new SpotCollection();
-        spotCollection.fetch({success: function(){
-            console.log("spot collection loaded data");
-        }},this);
+        var callback = jasmine.createSpy();
+
+        mapController.loadMarkerData(callback);
 
         waitsFor(function(){
-            return spotCollection.models.length > 0;
-        },  "Could not load spot data",1500)
-        */
+            return callback.callCount > 0;
+        });
+
+        runs(function(){
+            expect(callback).toHaveBeenCalled();
+            expect(mapController.mapModel.markers.length>0).toEqual(true);
+        });
     });
+
     it("a map can be loaded", function() {
 
         var callback = jasmine.createSpy();
@@ -55,5 +58,32 @@ describe("MapController: loading views", function() {
         });
 
     });
+
+    it("marker data can be loaded", function() {
+
+        var callback = jasmine.createSpy();
+
+        mapController.loadMarkerData(callback);
+
+        waitsFor(function(){
+            return callback.callCount > 0;
+        });
+
+        runs(function(){
+            expect(callback).toHaveBeenCalled();
+            expect(mapController.mapModel.markers.length>0).toEqual(true);
+        });
+    });
+
+
+    it("a map marker can be opened", function() {
+
+        var marker = mapController.mapModel.markers.models[0];
+        var marker = mapController.openMarkerPopup(marker.get("_id"));
+        expect(marker).toNotEqual(null);
+
+
+    });
+
 
 });

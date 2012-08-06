@@ -10,6 +10,8 @@ define([
 
         initialize: function () {
             var model = this.model.toJSON();
+            // todo typdata
+            //model.typeData = model.typeData.toJSON();
             model.href = "#spotoptions/"+model._id;
             this.compiledTemplate = _.template(htmlBody, model);
         },

@@ -10,6 +10,7 @@ window.AppRouter = Backbone.Router.extend({
     routes: {
         ""                  : "home",
         "map"               : "map",
+        "map/:markerId"      : "map",
         "addspot/:lat/:lng" : "addspot",
         "editspot/:_id"     : "editspot",
         "mapoptions/:lat/:lng" : "mapoptions",
@@ -73,7 +74,6 @@ window.AppRouter = Backbone.Router.extend({
     },*/
 
     home: function () {
-        debugger;
         //if (!this.navigatePage({id:'homeView'}))
         //    return;
         this.homeView= new HomeView();
@@ -118,10 +118,14 @@ window.AppRouter = Backbone.Router.extend({
         },this));
     },
 
-    map: function() {
+    map: function(markerId) {
         mapController.showMap(_.bind(function(view) {
             this.mainRegion.show(view);
             this.headerView.selectMenuItem('home-menu');
+
+            if (markerId)
+                mapController.openMarkerPopup(markerId);
+
         },this));
     },
 

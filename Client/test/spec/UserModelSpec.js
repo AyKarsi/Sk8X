@@ -53,9 +53,27 @@ describe("UserModel loading data", function() {
 
     beforeEach(function() {
         userCollection = new UserCollection();
+        var userModel1 = new window.User({
+                username: "AyKarsi",
+            password: "AyKarsi",
+            email: "karsten@grombach.com",
+            tags: ""
+        });
+        userCollection.add(userModel1);
+        var userModel2 = new window.User({
+            username: "AyKarsi2",
+            password: "AyKarsi2",
+            email: "karste2n@grombach.com",
+            tags: ""
+        });
+        userCollection.add(userModel2);
+
+
+/*
         userCollection.fetch({success: function(){
             console.log("user collection loaded data");
         }},this);
+*/
 
         waitsFor(function(){
             return userCollection.models.length > 0;

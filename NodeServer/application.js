@@ -119,10 +119,11 @@ var testDBConnection = function(){
         }
     });*/
 
+
+
 }
 
 testDBConnection();
-
 
 
 //mongodb://admin:nimda@staff.mongohq.com:10082/Trigger02
@@ -144,10 +145,9 @@ io.sockets.on('connection', function (socket) {
 console.log("express started");
 
 
-debugger;
 
 /*
-// ensure db fields
+// update db fields
 db.Spot.update({'features' : null},
       {'$set' : {'features' : [] }},
       { multi: true },
@@ -156,13 +156,20 @@ db.Spot.update({'features' : null},
       }
 );
 
-// ensure db fields
-db.Spot.update({'description' : null},
-    {'$set' : {'description' : "" }},
-    { multi: true },
-    function (err, numAffected) {
-        console.log("updated "+ numAffected + " documents");
-    }
-);
 
-*/
+
+ // remove a field
+ Spot.update({'' : 'Parc'},
+ {'$unset' : {'':1}},
+ { multi: true },
+ function (err, numAffected) {
+ console.log("updated "+ numAffected + " documents");
+ }
+ );
+
+
+
+ */
+
+
+

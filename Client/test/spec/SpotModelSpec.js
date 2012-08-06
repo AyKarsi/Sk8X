@@ -95,7 +95,8 @@ describe("SpotModel loading data", function() {
 
     it("a spot can be updated", function() {
 
-        var spotToFind = spotCollection.models[0];
+        debugger;
+        var spotToFind = spotCollection.models[spotCollection.length-1];
 
         var foundSpot = spotCollection.get(spotToFind.id);
         expect(foundSpot).toNotEqual(null);
@@ -125,15 +126,24 @@ describe("SpotModel loading data", function() {
             expect(updatedModel).toNotEqual(null);
             expect(updatedModel.id).toEqual(spotToFind.id);
             expect(updatedModel.get("label")).toEqual(newLabel);
+
+            // get model from collection and test again
+
+            var spotC = _.find(spotCollection.models, function(s){
+                return s.get("_id") == spotToFind.get("_id");
+            });
+            debugger;
+            expect(spotC).toNotEqual(null);
+            expect(spotC.get("label")).toEqual(newLabel);
         });
 
 
     });
 
-    it("a new spot can be created and deleted", function() {
+    xit("a new spot can be created and deleted", function() {
 
         var newLabel = "pleaseDelete"+ new Date().getTime();
-
+        debugger;
         var spot = new Spot({
             pos:[100,100],
             label: newLabel,
@@ -192,6 +202,7 @@ describe("SpotModel loading data", function() {
     it("should be possible to save a spot with features", function() {
         var newLabel = "pleaseDelete"+ new Date().getTime();
 
+
         var spot = new Spot({
             pos:[100,100],
             label: newLabel,
@@ -236,8 +247,7 @@ describe("SpotModel loading data", function() {
     });
 
     it("should be possible to update a spot with features", function() {
-        var spot = spotCollection.models[0];
-
+        var spot = spotController.spotCollection.models[0];
 
         var initialFeatures = spot.get("features");
         var initialLength =initialFeatures.length;

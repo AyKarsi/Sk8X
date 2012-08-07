@@ -24,8 +24,23 @@ define([
             callback(loginView);
         };
 
-        this.doLogin = function (username,callback){
-
+        this.doLogin = function (opts){
+            $.ajax({
+                url: config.apiUrl+"login",
+                type:'POST',
+                data: {
+                    login:opts.username,
+                    password:opts.password
+                },
+                success:_.bind(function(data) {
+                    if (data.success == true){
+                        opts.successCallback();
+                        return;
+                    }
+                    opts.errorCallback();
+                },this),
+                error: opts.errorCallback
+            });
         };
 
     }

@@ -63,6 +63,12 @@ window.AppRouter = Backbone.Router.extend({
             this.mainRegion.show(view);
         },this));
     },
+    login: function(lat,lng)
+    {
+        authController.login(_.bind(function(view) {
+            this.mainRegion.show(view);
+        },this));
+    },
 
 
     addspot: function(lat,lng)

@@ -53,6 +53,7 @@ require([
     "app/views/Navi/header",
     "app/views/Home/home",
     "app/views/User/RegisterUserView",
+    "app/views/User/LoginUserView",
     "app/views/userlist",
     "app/views/Map/mapView",
     "app/views/Map/spotMarkerView",

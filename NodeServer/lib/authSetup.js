@@ -1,5 +1,6 @@
 var everyauth = require("everyauth");
-
+var User = require("./../models/User");
+var log = require("./../lib/log")("log.txt");
 everyauth.password
     .getLoginPath("/client/src/index.html#login")
     .postLoginPath("/login")
@@ -9,8 +10,12 @@ everyauth.password
         var query = User.where('username').equals(login);//.where('password').equals(password);
         query.exec(function(err, user){
             if (err) return promise.fulfill([err]);
-            if (user && user.length > 0 && user[0].comparePasswords(password))
+            if (user && user.length > 0 && user[0].comparePasswords(password)){
+                log("logged in "+ user[0].username);
                 promise.fulfill(user[0]);
+            }
+            else
+                promise.fulfill([{error:"login failed"}]);
         });
         return promise;
     })

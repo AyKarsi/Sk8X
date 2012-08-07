@@ -2,11 +2,6 @@
 require.config({
     baseUrl:'/client/src',
     paths: {
-        // JavaScript folders
-        /* . . . */
-
-        // Libraries
-
         jquery: "lib/jquery-1.7.2.min",
         underscore: "lib/underscore-min",
         text: 'lib/text',
@@ -14,10 +9,6 @@ require.config({
         backbone: "lib/backbone-min",
         router:   "js/router",
         utils:     "js/utils"
-
-//        HeaderView :    "js/views/header"
-
-
     },
     shim: {
         underscore: {
@@ -38,11 +29,7 @@ require.config({
             deps: ["underscore", "jquery", "backbone"],
             exports: "router"
         }
-
-
-
     }
-
 
 });
 
@@ -51,32 +38,31 @@ require([
     "underscore",
     "backbone",
     "marionette",
-    "js/router",
+    "app/router",
     "lib/bootstrap",
-    "js/memorystore",
-    "js/config",
-    "js/utils",
-
-    "js/models/spotModels",
-    "js/models/userModels",
-    "js/models/homeActionModel",
-    "js/models/optionModel",
-    "js/models/mapModels",
-    "js/views/Common/NavigationMixin",
-    "js/views/Common/MarionettOverrides",
-    "js/views/Navi/header",
-    "js/views/Home/home",
-    "js/views/User/RegisterUserView",
-    "js/views/userlist",
-    "js/views/Map/mapView",
-    "js/views/Map/spotMarkerView",
-    "js/views/Spot/SpotEditView",
-    "js/views/Navi/menuView",
-    "js/views/about",
-    "js/controllers/spotController",
-    "js/controllers/mapController",
-    "js/controllers/authController",
-    "js/config",
+    "app/memorystore",
+    "app/config",
+    "app/utils",
+    "app/models/spotModels",
+    "app/models/userModels",
+    "app/models/homeActionModel",
+    "app/models/optionModel",
+    "app/models/mapModels",
+    "app/views/Common/NavigationMixin",
+    "app/views/Common/MarionettOverrides",
+    "app/views/Navi/header",
+    "app/views/Home/home",
+    "app/views/User/RegisterUserView",
+    "app/views/userlist",
+    "app/views/Map/mapView",
+    "app/views/Map/spotMarkerView",
+    "app/views/Spot/SpotEditView",
+    "app/views/Navi/menuView",
+    "app/views/about",
+    "app/controllers/spotController",
+    "app/controllers/mapController",
+    "app/controllers/authController",
+    "app/config"
     ], function(util) {
 
 
@@ -96,7 +82,6 @@ require([
 
 
 var app;
-
 if (window.forge == null){
     window.forge = {};
     window.forge.logging = {

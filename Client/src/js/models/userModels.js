@@ -4,20 +4,45 @@ define([
 
 window.User = Backbone.Model.extend({
 
-    url: config.apiUrl+"api/user",
-
-    idAttribute:'username',
+    urlRoot: config.apiUrl+"api/user",
+    //idAttribute:'username',
+    idAttribute:'_id',
     initialize: function (attributes) {
         this.validators = {};
         //this.id = attributes['_id'];
-        this.url = config.apiUrl+"api/user/"+this.id;
+        //this.url = config.apiUrl+"api/user/"+this.id;
+
+
+        this.validators.username = function (value) {
+
+            // todo goto server to check if username exists.
+            return value.length > 2 ? {isValid: true} : {isValid: false, message: "You must enter a valid username"};
+        };
+
+        this.validators.email = function (value) {
+            var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            // todo goto server to check if username exists.
+            return re.test(value) ? {isValid: true} : {isValid: false, message: "Please enter a valid email"};
+        };
 
         this.validators.name = function (value) {
             return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter a name"};
         };
+        this.validators.password = function (value) {
+            return value.length > 5 ? {isValid: true} : {isValid: false, message: "Password must be at least 6 characters long"};
+        };
+        this.validators.password2 = _.bind(function (value) {
+            return value == this.get("password") ? {isValid: true} : {isValid: false, message: "Passwords must match"};
+        },this);
+
+    },
+    validateItem: function (key) {
+        return (this.validators[key]) ? this.validators[key](this.get(key)) : {isValid: true};
     },
     defaults: {
-        _id: null,
+        username: "",
+        email:"",
+        password:"",
         pos : []
     },
     toMarker:function(){

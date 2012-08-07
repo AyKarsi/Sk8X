@@ -74,7 +74,6 @@ window.Spot = Backbone.Model.extend({
 window.SpotCollection = Backbone.Collection.extend({
 
     model: Spot,
-    //url: config.apiUrl+"api/spot",
     url: config.apiUrl+"api/spot",
 
     getPoints:function() {

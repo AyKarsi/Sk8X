@@ -17,7 +17,6 @@ define([
 
             if (window[view]) {
                 deferreds.push($.get('tpl/' + view + '.html', function(data) {
-                    debugger;
                     window[view].prototype.template = _.template(data);
                 },'text'));
             } else {
@@ -27,7 +26,6 @@ define([
 
 
         $.when.apply(null, deferreds).done(function(){
-            debugger;
             console.log("all views loaded");
             callback();
 
@@ -67,15 +65,15 @@ define([
     },
 
     addValidationError: function (field, message) {
-        var controlGroup = $('#' + field).parent().parent();
+        var controlGroup = $('[name="' + field+'"]').parent().parent();
         controlGroup.addClass('error');
-        $('.help-inline', controlGroup).html(message);
+        $('.help-block', controlGroup).html(message);
     },
 
     removeValidationError: function (field) {
-        var controlGroup = $('#' + field).parent().parent();
+        var controlGroup = $('[name="' + field+'"]').parent().parent();
         controlGroup.removeClass('error');
-        $('.help-inline', controlGroup).html('');
+        $('.help-block', controlGroup).html('');
     },
 
     showAlert: function(title, text, klass) {

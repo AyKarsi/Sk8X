@@ -66,6 +66,7 @@ require([
     "js/views/Common/MarionettOverrides",
     "js/views/Navi/header",
     "js/views/Home/home",
+    "js/views/User/RegisterUserView",
     "js/views/userlist",
     "js/views/Map/mapView",
     "js/views/Map/spotMarkerView",
@@ -74,6 +75,7 @@ require([
     "js/views/about",
     "js/controllers/spotController",
     "js/controllers/mapController",
+    "js/controllers/authController",
     "js/config",
     ], function(util) {
 
@@ -81,6 +83,7 @@ require([
 
 
     forge.logging.log("require.js setup complete");
+    window.authController = new AuthController();
     window.spotController = new SpotController();
     window.mapController = new MapController();
     app = new AppRouter();

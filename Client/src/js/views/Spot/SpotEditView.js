@@ -72,7 +72,6 @@ define([
         // used mainly for testing
         saveCallback : null,
         beforeSave: function (callback) {
-            debugger;
             var features = $(this.el).find("input.feature");
             var hasFeatures;
 
@@ -97,7 +96,6 @@ define([
 
             this.model.save(null, {
                 success:_.bind(function (model, b,c) {
-                    debugger;
                     app.navigate("map/"+model.get("_id"),true);
                     if (this.saveCallback)
                         this.saveCallback();

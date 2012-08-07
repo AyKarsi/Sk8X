@@ -16,8 +16,6 @@ window.AppRouter = Backbone.Router.extend({
         "mapoptions/:lat/:lng" : "mapoptions",
         "spotoptions/:id"   : "spotoptions",
         "users/page/:page"	: "list",
-        "register"          : "register",
-        "login"             : "login",
         "users/add"         : "addWine",
         "users/:id"         : "wineDetails",
         "about"             : "about"
@@ -49,19 +47,41 @@ window.AppRouter = Backbone.Router.extend({
         });
 
     },
+    //
+    // retutrns false if the current page can be reused..
+  /*  navigatePage: function(opts){
 
+        console.log("navigatePage");
+        $(".row-fluid,row").slideDown('slow',function() {
+            $(this).remove();
+            //if ($(this).hasClass("useOnce"))
+
+            //else
+              //  $(this).hide();
+        });
+
+        $(".row-fluid,row").promise().done(function(){
+            if ($("#"+opts.id).length > 0) {
+                $("#"+opts.id).show();
+                //$("#"+opts.id).slideUp();
+
+                return false;
+            }
+        });
+        //$("#content").append(el);
+        return true;
+
+    },*/
 
     home: function () {
+<<<<<<< HEAD
+        //if (!this.navigatePage({id:'homeView'}))
+        //    return;
+=======
+>>>>>>> master
         this.homeView= new HomeView();
         this.mainRegion.show(this.homeView);
 
-    },
-
-    register: function(lat,lng)
-    {
-        authController.register(_.bind(function(view) {
-            this.mainRegion.show(view);
-        },this));
     },
 
 

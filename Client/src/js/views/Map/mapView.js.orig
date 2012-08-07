@@ -56,8 +56,10 @@ define([
             },this));
 
             this.lmap.on("click",function(e){
+<<<<<<< HEAD
                 app.navigate("mapoptions/"+e.latlng.lat+"/"+ e.latlng.lng,{trigger:true});
             });
+
 
             this.addSpot = function(spot){
                 var pos = spot.get("pos");
@@ -71,11 +73,20 @@ define([
 
                 var marker = L.marker([lat,lng],{
                     model:spot
+=======
+                app.navigate("mapoptions/"+e.latLng+"/"+ e.latLng,{trigger:true});
+            });
+
+            var self = this;
+            this.mapModel.on('markers:add', function(newpoint) {
+                var marker = L.marker([newpoint.get("lat"),  newpoint.get("lng")],{
+                    model:newpoint
+>>>>>>> master
                 });
                 // empty bind need so that event listeners is tuned in
                 marker.bindPopup("");
                 marker.addTo(this.lmap);
-                //console.log("added marker "+ spot.get("_id") + " " + spot.get("label"));
+                console.log("added marker "+ spot.get("_id") + " " + spot.get("label"));
             };
 
             spotController.spotCollection.on('reset', _.bind(function(){

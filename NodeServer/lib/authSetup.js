@@ -20,22 +20,20 @@ everyauth.password
         return promise;
     })
     .respondToLoginSucceed( function (res, user, data) {
-
         var loggedIn =everyauth._req._getters.loggedIn();
-        console.log("respondToLoginSucceed " +loggedIn + " "+  everyauth.user);
-
         if (user) {
             everyauth.user = user;
             //response.login = true;
-            return res.json({ success: true }, 200);
+            return res.json({ success: true,user:{
+                username:user.username,
+                _id:user._id
+            }}, 200);
         }
         //this.redirect(res);
     })
     .handleLogout( function (req, res) {
-
         everyauth.user = null;
         return res.json({ success: true }, 200);
-
     })
     .respondToLoginFail( function (req, res, errors, login) {
         if (!errors || !errors.length) return;

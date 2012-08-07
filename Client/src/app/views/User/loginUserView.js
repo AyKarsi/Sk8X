@@ -55,7 +55,7 @@ define([
                 username:this.model.get("username"),
                 password: this.model.get("password"),
                 successCallback:_.bind(function(){
-                    app.navigate("map");
+                    app.navigate("loginSuccess",true);
                 },this),
                 errorCallback: _.bind(function(){
                     utils.showAlert("Login failed", "Either username or password are not correct");

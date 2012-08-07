@@ -9,6 +9,7 @@ window.AppRouter = Backbone.Router.extend({
 
     routes: {
         ""                  : "home",
+        "loginSuccess"      : "loginSuccess",
         "map"               : "map",
         "map/:markerId"      : "map",
         "addspot/:lat/:lng" : "addspot",
@@ -69,7 +70,11 @@ window.AppRouter = Backbone.Router.extend({
             this.mainRegion.show(view);
         },this));
     },
+    loginSuccess: function(){
+        this.headerView.toggleLoggedInState();
+        this.navigate("map",true);
 
+    },
 
     addspot: function(lat,lng)
     {

@@ -24,7 +24,16 @@ define([
             callback(loginView);
         };
 
+
+        this.isLoggedIn = function(){
+            if (this.currentUser != null)
+                return true;
+            return false;
+        }
+
+        this.currentUser = null;
         this.doLogin = function (opts){
+            this.currentUser = null;
             $.ajax({
                 url: config.apiUrl+"login",
                 type:'POST',
@@ -34,6 +43,7 @@ define([
                 },
                 success:_.bind(function(data) {
                     if (data.success == true){
+                        this.currentUser = data.user;
                         opts.successCallback();
                         return;
                     }

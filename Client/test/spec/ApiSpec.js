@@ -1,75 +1,7 @@
-describe("API ", function() {
+describe("API Login / out ", function() {
 
 
     beforeEach(function() {
-
-
-
-
-    });
-
-    it("a new spot can created and contains a valid Id", function() {
-
-        var spot = new Spot({
-            label: 'PleaseSet',
-            pos : [],
-            spotType:'', // spot or parc
-            description:'',
-            features:[]
-        });
-
-        var successCallback = jasmine.createSpy();
-        var errorCallback = jasmine.createSpy();
-
-        debugger;
-        spot.save(null,{
-            success:successCallback,
-            error:errorCallback
-        });
-
-        waitsFor(function() {
-            return successCallback.callCount > 0 || errorCallback.callCount > 0;
-        });
-
-
-        runs(function(){
-
-
-            expect(errorCallback.callCount).toEqual(0);
-            expect(successCallback.callCount > 0).toEqual(true);
-            expect(successCallback.argsForCall[0][0].get("_id")).toNotEqual(null);
-        });
-
-    });
-
-    it("a new user can created and contains a valid Id", function() {
-
-        var user = new User({
-            username: 'PleaseSet',
-            email:'test@123.com',
-            password:'324234234'
-        });
-
-        var successCallback = jasmine.createSpy();
-        var errorCallback = jasmine.createSpy();
-
-        debugger;
-        user.save(null,{
-            success:successCallback,
-            error:errorCallback
-        });
-
-        waitsFor(function() {
-            return successCallback.callCount > 0 || errorCallback.callCount > 0;
-        });
-
-
-        runs(function(){
-            debugger;
-            expect(errorCallback.callCount).toEqual(0);
-            expect(successCallback.callCount > 0).toEqual(true);
-            expect(successCallback.argsForCall[0][0].get("_id")).toNotEqual(null);
-        });
 
     });
 
@@ -166,6 +98,84 @@ describe("API ", function() {
 
         });
     });
+
+});
+
+describe("API Spots", function() {
+
+
+    beforeEach(function() {
+
+
+
+
+    });
+
+    it("a new spot can created and contains a valid Id", function() {
+
+        var spot = new Spot({
+            label: 'PleaseSet',
+            pos : [],
+            spotType:'', // spot or parc
+            description:'',
+            features:[]
+        });
+
+        var successCallback = jasmine.createSpy();
+        var errorCallback = jasmine.createSpy();
+
+        debugger;
+        spot.save(null,{
+            success:successCallback,
+            error:errorCallback
+        });
+
+        waitsFor(function() {
+            return successCallback.callCount > 0 || errorCallback.callCount > 0;
+        });
+
+
+        runs(function(){
+
+
+            expect(errorCallback.callCount).toEqual(0);
+            expect(successCallback.callCount > 0).toEqual(true);
+            expect(successCallback.argsForCall[0][0].get("_id")).toNotEqual(null);
+        });
+
+    });
+
+    it("a new user can created and contains a valid Id", function() {
+
+        var user = new User({
+            username: 'PleaseSet',
+            email:'test@123.com',
+            password:'324234234'
+        });
+
+        var successCallback = jasmine.createSpy();
+        var errorCallback = jasmine.createSpy();
+
+        debugger;
+        user.save(null,{
+            success:successCallback,
+            error:errorCallback
+        });
+
+        waitsFor(function() {
+            return successCallback.callCount > 0 || errorCallback.callCount > 0;
+        });
+
+
+        runs(function(){
+            debugger;
+            expect(errorCallback.callCount).toEqual(0);
+            expect(successCallback.callCount > 0).toEqual(true);
+            expect(successCallback.argsForCall[0][0].get("_id")).toNotEqual(null);
+        });
+
+    });
+
 
 
 

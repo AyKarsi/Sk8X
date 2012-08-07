@@ -9,12 +9,13 @@ var RoleSchema = new Schema({
 })
 var UserSchema = new Schema({
     username:{type:String, required:true, unique:true, index:true, display:{help:'This must be a unique name'}},
-    first_name:{type:String},
-    last_name:{type:String},
-    twitter:{type:String,required:true, validate: /^@[a-zA-Z0-9]*$/i },
+    //first_name:{type:String},
+    //last_name:{type:String},
+    //twitter:{type:String,required:true, validate: /^@[a-zA-Z0-9]*$/i },
     email:{type:String},
-    password:{type:String, display:{dataType:'Password'}, get:function(){ return 'password' }},
-    groups:[
+    password:{type:String, display:{dataType:'Password'}, get:function(){ return 'password' }}
+
+  ,  groups:[
         { type:Schema.ObjectId, ref:'group', index:true}
     ],
     meta:{
@@ -34,7 +35,9 @@ var UserSchema = new Schema({
         ,'profile','pictures'
     ],
     list_fields:['username','first_name','last_name','twitter','email', 'meta.favorite']
-}});
+ }
+
+});
 mongoose.model('ProfileImage', ImageInfo);
 mongoose.model('PictureImage', ImageInfo);
 
@@ -59,6 +62,15 @@ function sha1b64(password) {
 //        return this.get('_password');
 //    });
 
+UserSchema.methods.comparePasswords = function(pwd1){
+    var p1 = this._doc.password;
+    //console.log("checking Password " + this.password + " " +pwd1);
+    var p2 = sha1b64(pwd1);
+    if (p1== p2)
+        return true;
+    return false;
+};
+
 UserSchema.pre('save', function (next) {
 
     var _this = this;
@@ -71,9 +83,12 @@ UserSchema.pre('save', function (next) {
         this.modfied_at = Date.now();
     next();
 });
+
 UserSchema.statics.findByUsernamePassword = function (username, password) {
     return  this.where({username:username, _password:sha1b64(password)});
 }
+
+
 
 var User = mongoose.model("user", UserSchema);
 

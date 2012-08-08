@@ -5,7 +5,6 @@ define([
 window.User = Backbone.Model.extend({
 
     urlRoot: config.apiUrl+"api/user",
-    //idAttribute:'username',
     idAttribute:'_id',
     initialize: function (attributes) {
         this.validators = {};
@@ -95,7 +94,16 @@ window.UserCollection = Backbone.Collection.extend({
         result = _.find(this.models, _.bind(function(item){
             return item.id.toLowerCase() == lowId;
         },this));
+        return result;
+    },
+    getByUsername: function(username) {
+        if (username== null) return void 0;
 
+        var lowId = username.toLowerCase();
+        // try to find it ignoring the case
+        var result = _.find(this.models, _.bind(function(item){
+            return item.get("username").toLowerCase() == lowId;
+        },this));
         return result;
     },
     // override for merse rest api

@@ -1,6 +1,7 @@
 var User = require('./../models/user');
 var Spot = require('./../models/spot');
 var log = require('./log')("log.txt");
+var mongoose = require("mongoose");
 
 /*
  // update db fields
@@ -32,7 +33,23 @@ var query = User.where('_id').equals("501fdd44782632b42900040f");
 query.remove(function(err, count){
     log("Removed err " +err + " docs deleted "+count);
 });
+
+ var query = User;
+ query.--- remove(function(err, count){
+ log("Removed users " +err + " docs deleted "+count);
+ });
+
  */
+
+/*mongoose.connection.collections['users'].drop( function(err) {
+    if (!err)
+        console.log("dropped user collection ");
+    else
+        console.log("drop user collection failed " + err);
+
+});*/
+
+
 
 // remove test records
 var query = Spot.where('label').regex(/^pleaseDelete[a-z0-9]+$/i);
@@ -44,6 +61,16 @@ query = Spot.where('pos').equals([100,100]);
 query.remove(function(err, count){
     log("Removed Testdocuments err " +err + " docs deleted "+count);
 });
+
+query = Spot.where('pos').equals(["undefined","undefined"]);
+query.remove(function(err, count){
+    log("Removed Testdocuments err " +err + " docs deleted "+count);
+});
+query = Spot.where('pos').equals([]);
+query.remove(function(err, count){
+    log("Removed Testdocuments err " +err + " docs deleted "+count);
+});
+
 
 
 //console.log(mongoose.connection.collections);

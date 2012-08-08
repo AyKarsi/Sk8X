@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var express = require('express');//   , form = require('connect-form');
 var everyauth = require('everyauth');
 require('./lib/authSetup');
+var restSetup = require('./lib/restSetup');
 var cors = require('./lib/cors');
 var mers = require('mers');
 var User = require('./models/user');
@@ -24,9 +25,15 @@ app.configure(function() {
     app.use(express.session({secret: 'mr ripley'}));
     app.use(everyauth.middleware());
     app.use(express.methodOverride());
-    //app.use('/api', mers({uri:'"mongodb://admin:nimda@staff.mongohq.com:10082/Trigger02"'}).rest());
-    app.use('/api', mers({uri:'"mongodb://localhost:27017/Ska8x"'}).rest());
+    app.use(app.router);
     app.use("/client", express.static(clientDir));
+});
+
+// configure custom routs (containes overrides for mers)
+require("./lib/routes")(app);
+
+app.configure(function() {
+    app.use('/api', restSetup.rest());
 });
 
 
@@ -35,7 +42,7 @@ var count = 0;
 
 app.listen(appPort);
 log("running on " + appPort);
-require("./lib/routes")(app);
+
 
 
 var testDBConnection = function(callback){

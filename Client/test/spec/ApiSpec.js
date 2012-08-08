@@ -8,7 +8,6 @@ describe("API Login / out ", function() {
     it("a user can be logged in", function() {
         var user = new User({
             username: 'PleaseSet',
-            email:'test@123.com',
             password:'324234234'
         });
         var successCallback = jasmine.createSpy();
@@ -105,13 +104,26 @@ describe("API Spots", function() {
 
 
     beforeEach(function() {
+        var successCallback = jasmine.createSpy();
+        var errorCallback = jasmine.createSpy();
+        authController.doLogin({
+            username: 'PleaseSet',
+            password:'324234234',
+            successCallback:successCallback,
+            errorCallback:errorCallback
+        });
+        waitsFor(function() {
+            return successCallback.callCount > 0 || errorCallback.callCount > 0;
+        });
 
-
-
+        runs(function(){
+            expect(errorCallback.callCount).toEqual(0);
+            expect(successCallback.callCount > 0).toEqual(true);
+        });
 
     });
 
-    it("a new spot can created and contains a valid Id", function() {
+    it("a new spot can be created and contains a valid Id", function() {
 
         var spot = new Spot({
             label: 'PleaseSet',
@@ -145,7 +157,7 @@ describe("API Spots", function() {
 
     });
 
-    it("a new user can created and contains a valid Id", function() {
+    it("a new user can be created and contains a valid Id", function() {
 
         var user = new User({
             username: 'PleaseSet',
@@ -156,7 +168,6 @@ describe("API Spots", function() {
         var successCallback = jasmine.createSpy();
         var errorCallback = jasmine.createSpy();
 
-        debugger;
         user.save(null,{
             success:successCallback,
             error:errorCallback
@@ -166,16 +177,14 @@ describe("API Spots", function() {
             return successCallback.callCount > 0 || errorCallback.callCount > 0;
         });
 
-
         runs(function(){
             debugger;
             expect(errorCallback.callCount).toEqual(0);
             expect(successCallback.callCount > 0).toEqual(true);
-            expect(successCallback.argsForCall[0][0].get("_id")).toNotEqual(null);
+            expect(successCallback.argsForCall[0][0].get("username")).toNotEqual(null);
         });
 
     });
-
 
 
 

@@ -23,7 +23,9 @@ describe("UserModel", function() {
         userCollection.add(userModel);
         expect(userCollection.models.length).toEqual(1);
     });
-    it("should not be possible to add the same user twice", function() {
+
+    // this is handled server side
+    xit("should not be possible to add the same user twice", function() {
         var userModel = new window.User({
             username: "AyKarsi",
             password: "AyKarsi",
@@ -46,7 +48,7 @@ describe("UserModel", function() {
 
 });
 
-describe("UserModel loading data", function() {
+describe("UserModel loading mock data", function() {
 
 
     var userCollection;
@@ -54,7 +56,7 @@ describe("UserModel loading data", function() {
     beforeEach(function() {
         userCollection = new UserCollection();
         var userModel1 = new window.User({
-                username: "AyKarsi",
+            username: "AyKarsi",
             password: "AyKarsi",
             email: "karsten@grombach.com",
             tags: ""
@@ -87,35 +89,43 @@ describe("UserModel loading data", function() {
 
     it("a user can be found by his username", function() {
 
-        var user = userCollection.get("AyKarsi");
+        var user = userCollection.getByUsername("AyKarsi");
         expect(user).toNotEqual(null);
-        expect(user.id).toEqual("AyKarsi");
+        expect(user.get("username")).toEqual("AyKarsi");
     });
 
     it("a user can be found by his username in any 'case''", function() {
-        var user = userCollection.get("aykarsi");
+        var user = userCollection.getByUsername("aykarsi");
         expect(user).toNotEqual(null);
-        expect(user.id).toEqual("AyKarsi");
+        expect(user.get("username")).toEqual("AyKarsi");
     });
 
 
 });
 
 
-/*
-describe("App", function() {
+describe("UserModel loading server data", function() {
 
-    var userModel;
+
     var userCollection;
 
     beforeEach(function() {
+        userCollection = new SpotCollection();
+        userCollection.fetch({success: function(){
+            console.log("user collection loaded data");
+        }},this);
+
+        waitsFor(function(){
+            return userCollection.models.length > 0;
+        },  "Could not load user data",500)
 
     });
 
-    it("app should be created", function() {
-        expect(app).toNotEqual(null);
+    it("user can be retrieved but does not contain username and password", function() {
+        var user = userCollection.models[0];
+        var pwd = user.get("password");
+        var email = user.get("email");
+        expect(pwd == null || pwd == "").toEqual(true,"password is not null");
+        expect(email == null || email == "").toEqual(true,"email is not null");
     });
-
-
-
-});*/
+});

@@ -67,8 +67,6 @@ require([
     ], function(util) {
 
 
-
-
     forge.logging.log("require.js setup complete");
     window.authController = new AuthController();
     window.spotController = new SpotController();

@@ -10,15 +10,26 @@ module.exports = function(app){
     });
 
 
-    /*
-     app.get('/push', function(req, res){
-     console.log("pushing");
-     count++;
-     io.sockets.emit('news',{count:count});
-     res.send(count);
+    app.get('/api/user/:id', function (req, res, next) {
+        req.query.transform = 'publicUser';
+        //req.query.populate = 'manager,reports';
+        next();
+    });
+    app.get('/api/user', function (req, res, next) {
+        req.query.transform = 'publicUser';
+        //req.query.populate = 'manager,reports';
+        next();
+    });
 
-     });
-     */
+    /*
+    app.get('/push', function(req, res){
+    console.log("pushing");
+    count++;
+    io.sockets.emit('news',{count:count});
+    res.send(count);
+
+    });
+    */
 
     app.post('/fileupload', function(req, res, next){
 

@@ -1,4 +1,5 @@
 var crypto = require('crypto'), mongoose = require('mongoose'), Schema = mongoose.Schema, ImageInfo = require('../plugins/ImageInfo');
+var log = require("./../lib/log")("log.txt");
 var RoleSchema = new Schema({
     name:{type:String},
     read:{type:Boolean},
@@ -8,7 +9,7 @@ var RoleSchema = new Schema({
 
 })
 var UserSchema = new Schema({
-    username:{type:String, required:true, unique:true, index:true, display:{help:'This must be a unique name'}},
+    username:{type:String, required:true,  index: { unique: true },  display:{help:'This must be a unique name'}},
     //first_name:{type:String},
     //last_name:{type:String},
     //twitter:{type:String,required:true, validate: /^@[a-zA-Z0-9]*$/i },
@@ -55,6 +56,9 @@ UserSchema.statics.findQ_thru_Z = function onFindQZ(){
 function sha1b64(password) {
     return crypto.createHash('sha1').update(password).digest('base64');
 }
+
+
+
 //UserSchema.virtual('password').set(
 //    function (password) {
 //        this.set('_password', sha1b64(password));
@@ -72,7 +76,7 @@ UserSchema.methods.comparePasswords = function(pwd1){
 };
 
 UserSchema.pre('save', function (next) {
-
+    log("saving user " + this.username);
     var _this = this;
     if (this._doc.password && this._doc.password != 'password'){
         this.password = sha1b64(_this._doc.password)
@@ -87,8 +91,6 @@ UserSchema.pre('save', function (next) {
 UserSchema.statics.findByUsernamePassword = function (username, password) {
     return  this.where({username:username, _password:sha1b64(password)});
 }
-
-
 
 var User = mongoose.model("user", UserSchema);
 
